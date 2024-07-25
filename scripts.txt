@@ -1,0 +1,23 @@
+# Install a new react project with vite 
+Reference: https://vitejs.dev/guide/
+
+npm create vite@latest wmad_library_frontend -- --template react
+npm install
+
+------------------------------------------------------------------------
+# Set up radix-ui 
+Reference: https://www.radix-ui.com/themes/docs/overview/getting-started
+
+npm install @radix-ui/themes
+npm install @radix-ui/react-icons
+
+
+------------------------------------------------------------------------
+# Set up tailwindcss 
+https://tailwindcss.com/docs/guides/vite
+
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+# Working with fetch API
+npm install axios
