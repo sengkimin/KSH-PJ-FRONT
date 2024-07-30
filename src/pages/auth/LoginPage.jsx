@@ -18,8 +18,11 @@ const LoginPage = () => {
         email: username,
         password,
       });
-      const { token } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("time", new Date().getTime());
+
       navigate("/");
     } catch (error) {
       console.error("Login failed", error);
