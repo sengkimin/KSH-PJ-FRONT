@@ -48,7 +48,7 @@ const BookIssuePage = () => {
         <tbody>
           {user.map((user) =>(
             <tr className="border" key={user.id}>
-              <td className="px-4 py-4 border-r"><button className=" px-4 py-2 bg-sky-500 rounded-lg">view all</button></td>
+              <td className="px-4 py-4 border-r"><button className=" px-4 py-2 bg-sky-500 rounded-lg">view </button></td>
               <td className="px-4 py-4 border ">{user.book.title}</td>
               <td className="px-4 py-4 border-r">{user.member.fullname}</td>
               <td className="px-4 py-4 border-r">{user.processed_by.username}</td>
