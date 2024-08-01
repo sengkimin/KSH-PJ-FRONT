@@ -25,16 +25,17 @@ const BookIssuePage = () => {
   return (
     <>
       <h1 className="text-3xl font-bold ">Book Issue</h1>
-      <div>
-           <button class="... ring-2 ring-blue-500">
+      <div className="px-2 py-4">
+           <button class="px-8 py-2 ring-2 bg-sky-400 rounded-md text-black">
               Create 
            </button>
       </div>
 
       <table>
+        <div className="border rounded-lg overflow-hidden">
         <thead>
           <tr className="border ">
-            <th>Action</th>
+            <th className="">Action</th>
             <th className="px-4 py-4 border-r">Title</th>
             <th className="px-4 py-4 border-r">Member</th>
             <th className="px-4 py-4 border-r">Librarian</th>
@@ -47,7 +48,7 @@ const BookIssuePage = () => {
         <tbody>
           {user.map((user) =>(
             <tr className="border" key={user.id}>
-              <td className="px-4 py-4 border-r"><button className="px-2 py-4 bg-cyan-600">view</button></td>
+              <td className="px-4 py-4 border-r"><button className=" px-4 py-2 bg-sky-500 rounded-lg">view all</button></td>
               <td className="px-4 py-4 border ">{user.book.title}</td>
               <td className="px-4 py-4 border-r">{user.member.fullname}</td>
               <td className="px-4 py-4 border-r">{user.processed_by.username}</td>
@@ -60,7 +61,7 @@ const BookIssuePage = () => {
           ))}
 
         </tbody>
-               
+        </div>       
       </table>
      </>
   );
