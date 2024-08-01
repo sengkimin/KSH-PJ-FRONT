@@ -35,8 +35,9 @@ function UserAccountListPage() {
                 <h1 className="text-2xl font-bold mb-4">User Accounts</h1>
                 <CreateButton/>
 
-                <table className=' min-w-full bg-white  border border-gray-200 rounded '>
-                    <thead className=''>
+                <table className='w-full bg-white   border-gray-500 border rounded-2xl overflow-hidden '>
+                    
+                    <thead >
                         <tr className="w-full bg-gray-100 border-b ">
                             <th className="py-2 px-4 border-r text-left">Action</th>
                             <th className="py-2 px-4 border-r text-left">ID</th>
@@ -48,7 +49,7 @@ function UserAccountListPage() {
                     
                         </tr>
                     </thead>
-                    <tbody className='border'>
+                    <tbody >
                         {users.map((user) => (
                             <tr key={user.id} >
                                 <td className="py-4 px-4 border-b"><button  className='px-8 py-2 bg-blue-400 rounded'>view</button></td>
@@ -61,6 +62,7 @@ function UserAccountListPage() {
                             </tr>
                         ))}
                     </tbody>
+                   
                 </table>
             </div>
         </div>
