@@ -3,6 +3,8 @@ import axios from 'axios';
 import React from 'react';
 import CreateButton from '../../components/CreateButton';
 
+import { Link } from 'react-router-dom';
+
 function UserAccountListPage() {
     const [users, setUsers] = useState([]);
     const token = localStorage.getItem("token");
@@ -33,36 +35,39 @@ function UserAccountListPage() {
         <div>
             <div className="container mx-auto p-4 ">
                 <h1 className="text-2xl font-bold mb-4">User Accounts</h1>
-                <CreateButton/>
+                <CreateButton />
 
                 <table className='w-full bg-white   border-gray-500 border rounded-2xl overflow-hidden '>
-                    
+
                     <thead >
-                        <tr className="w-full bg-gray-100 border-b ">
-                            <th className="py-2 px-4 border-r text-left">Action</th>
-                            <th className="py-2 px-4 border-r text-left">ID</th>
-                            <th className="py-2 px-4 border-r text-left">Name</th>
-                            <th className="py-2 px-4 border-r text-left">Email</th>
-                            <th className="py-2 px-4 border-r text-left">User Role</th>
-                            <th className="py-2 px-4 border-r text-left">Activated</th>
-                            <th className="py-2 px-4 border-r text-left">Active</th>
-                    
+                        <tr className="w-full bg-gray-300 border-b ">
+                            <th className="py-4 px-4 border-r text-left">Action</th>
+                            <th className="py-4 px-4 border-r text-left">ID</th>
+                            <th className="py-4 px-4 border-r text-left">Name</th>
+                            <th className="py-4 px-4 border-r text-left">Email</th>
+                            <th className="py-4 px-4 border-r text-left">User Role</th>
+                            <th className="py-4 px-4 border-r text-left">Activated</th>
+                            <th className="py-4 px-4 border-r text-left">Active</th>
+
                         </tr>
                     </thead>
                     <tbody >
                         {users.map((user) => (
+
                             <tr key={user.id} >
-                                <td className="py-4 px-4 border-b"><button  className='px-8 py-2 bg-blue-400 rounded'>view</button></td>
+                                <td className="py-4 px-4 border-b"> <Link to={`/view/${user.id}`} className='px-8 py-2 bg-blue-400 rounded'>view</Link></td>
                                 <td className="py-4 px-4 border-b">{user.id}</td>
                                 <td className="py-4 px-4 border-b">{user.username}</td>
                                 <td className="py-4 px-4 border-b">{user.email}</td>
                                 <td className="py-4 px-4 border-b">{user.user_role.user_role_name}</td>
-                                <td className="py-4 px-4 border-b">{user.is_activated? 'yes' : 'no'}</td>
-                                <td className="py-4 px-4 border-b">{user.is_active?'yes':'no'}</td>
+                                <td className="py-4 px-4 border-b">{user.is_activated ? 'yes' : 'no'}</td>
+                                <td className="py-4 px-4 border-b">{user.is_active ? 'yes' : 'no'}</td>
+
                             </tr>
+
                         ))}
                     </tbody>
-                   
+
                 </table>
             </div>
         </div>
