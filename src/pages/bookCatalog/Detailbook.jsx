@@ -52,24 +52,26 @@ const View = () => {
     }
 
     return (
-        <div className="relative p-4">
-            <h1>Book Data</h1>
-            <div className="absolute top-0 flex space-x-4">
+        <div className="p-4">
+
+          <h1 className='text-3xl font-bold '>Book Catalog Information</h1>
+            <div className=" top-0 flex space-x-4 mt-6">
+       
                 <button 
                     onClick={() => navigate('/book-catalog')} 
-                    className="px-6 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-700"
+                    className="px-8 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-700"
                 >
-                    Cancel
+                    Back
                 </button>
                 <button 
                  
-                    className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
+                    className="px-8 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
                 >
                     Update
                 </button>
                 <button 
                     onClick={handleDelete} 
-                    className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-700"
+                    className="px-8 py-3 bg-red-500 text-white rounded-lg hover:bg-red-700"
                 >
                     Delete
                 </button>
