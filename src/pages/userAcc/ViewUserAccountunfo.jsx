@@ -1,20 +1,15 @@
 
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BoxInfo from '../../components/BoxInfo';
-import DeleteBtn from '../../components/DeleteBtn';
-import AddBtn from '../../components/AddBtn';
-import BackBtn from '../../components/BackBtn';
+import Btn from '../../components/Btn';
 import { Link } from 'react-router-dom';
-
-const View = () => {
+const ViewUserAccountinfo = () => {
     const [data, setData] = useState({});
-    // const [error, setError] = useState(null); 
     const { id } = useParams();
     const token = localStorage.getItem("token");
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,10 +25,8 @@ const View = () => {
                 setError(error.message);
             }
         };
-
         fetchData();
     }, [id, token]);
-
     const deleteBtn = async () => {
         const userConfirmed = window.confirm("Would you like to delete?");
         if (userConfirmed) {
@@ -51,18 +44,14 @@ const View = () => {
             }
         }
     };
-
     return (
         <div>
             <h1 className='font-bold text-xl'>User Data</h1>
             <div className='flex gap-2'>
-                <Link to="/user-account"><BackBtn /></Link>
-                <AddBtn />
-                <DeleteBtn onClick={deleteBtn} />
+                <Link to="/user-account"><Btn text="Back" kind="normal" /></Link>
+                <Btn text="Create" kind="secondary" />
+                <Btn text="Delete" kind="delete" onClick={deleteBtn} />
             </div>
-
-            {/* {error && <div className="error">{error}</div>}   */}
-
             <table className='w-full bg-white border-gray-500 border rounded-2xl overflow-hidden'>
                 <tbody>
                     <BoxInfo label="ID" value={data.id} />
@@ -77,4 +66,4 @@ const View = () => {
     );
 };
 
-export default View;
+export default ViewUserAccountinfo;
