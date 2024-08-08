@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BoxInfo from '../../components/BoxInformation';
-import Btn from '../../components/Btn';
+import Btn from '../../components/Buttons';
 import { Link } from 'react-router-dom';
 const ViewUserAccountinfo = () => {
     const [data, setData] = useState({});
@@ -48,9 +48,9 @@ const ViewUserAccountinfo = () => {
         <div>
             <h1 className='font-bold text-xl'>User Data</h1>
             <div className='flex gap-2'>
-                <Link to="/user-account"><Btn text="Back" kind="normal" /></Link>
-                <Btn text="Create" kind="secondary" />
-                <Btn text="Delete" kind="delete" onClick={deleteBtn} />
+                <Link to="/user-account"><Btn text="Back" /></Link>
+                <Link to="/user-account/new"><Btn text="Create" type="btn-blue" /></Link>
+                <Btn text="Delete" type="btn-delete" onClick={deleteBtn} />
             </div>
             <table className='w-full bg-white border-gray-500 border rounded-2xl overflow-hidden'>
                 <tbody>
