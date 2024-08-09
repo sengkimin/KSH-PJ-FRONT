@@ -7,6 +7,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+button.btn-blue {
+   background-color: rgb(63, 105, 240);
+}
+
+button.btn-delete {
+  background-color: rgb(251, 7, 7);
+}
+
+
 Button.Button-blue{
   background-color: #1a73e8;
 }
@@ -14,3 +25,4 @@ Button.Button-red{
   background-color: red;
 
 }
+
