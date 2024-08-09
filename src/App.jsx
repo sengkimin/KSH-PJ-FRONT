@@ -11,7 +11,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AppLayout from "./components/AppLayout";
 import MemberPage from "./pages/member/MemberPage";
 import UserAccountListPage from "./pages/userAcc/UserAcounts";
-
+import NewBookIssue from "./pages/bookIssue/NewBookIssue";
+import ViewBookIssue from "./pages/bookIssue/ViewBookIssue";
 function App() {
   return (
     <Routes>
@@ -23,6 +24,10 @@ function App() {
           <Route index element={<UserAccountListPage />} />
           {/* <Route path="/book-catalog:id" element={<BookCatalogPage />} /> */}
         </Route>
+        <Route path="/NewBookIssue" element={<NewBookIssue />} />
+        <Route path="/ViewBookIssue" element={<ViewBookIssue />} />
+
+
         <Route path="/book-catalog" element={<BookCatalogPage />} />
         <Route path="/book-issue" element={<BookIssuePage />} />
         <Route path="/member" element={<MemberPage />} />
