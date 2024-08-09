@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import BoxInfo from '../../components/BoxInfo';
+import Button from '../../components/ButtonBookcatalog.jsx'
+import Viewbox from '../../components/ViewboxBookcatalog';
 
 const View = () => {
     const [data, setData] = useState({});
@@ -12,6 +13,7 @@ const View = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+
             try {
                 const response = await axios.get(`http://localhost:3000/api/books/${id}`, {
                     headers: {
@@ -26,7 +28,7 @@ const View = () => {
         };
 
         fetchData();
-    }, []);
+    }, [id,token]);
 
 
     const handleDelete = async () => {
@@ -55,40 +57,27 @@ const View = () => {
         <div className="p-4">
 
           <h1 className='text-3xl font-bold '>Book Catalog Information</h1>
-            <div className=" top-0 flex space-x-4 mt-6">
+            <div className=" top-0 space-x-4 mt-4">
        
-                <button 
-                    onClick={() => navigate('/book-catalog')} 
-                    className="px-8 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-700"
-                >
-                    Back
-                </button>
-                <button 
-                 
-                    className="px-8 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700"
-                >
-                    Update
-                </button>
-                <button 
-                    onClick={handleDelete} 
-                    className="px-8 py-3 bg-red-500 text-white rounded-lg hover:bg-red-700"
-                >
-                    Delete
-                </button>
+                <Button    onClick={() => navigate('/book-catalog')}  text="Back" />
+        
+                <Button text="Update" kind="Button-blue"/>
+           
+                <Button  onClick={handleDelete} text="Delete" kind='Button-red'/>
             </div>
-            <table className='w-full bg-white border-gray-500 border rounded-2xl overflow-hidden mt-12'>
+            <table className='w-full bg-white border-gray-500 border rounded-2xl overflow-hidden mt-6'>
                 <tbody>
-                    <BoxInfo label="ISBN" value={data.isbn} />
-                    <BoxInfo label="Title" value={data.title} />
-                    <BoxInfo label="Authors" value={data.authors} />
-                    <BoxInfo label="Publisher" value={data.publisher} />
-                    <BoxInfo label="Publication Year" value={data.publication_year} />
-                    <BoxInfo label="Edition" value={data.edition} />
-                    <BoxInfo label="Genre" value={data.genre} />
-                    <BoxInfo label="Language" value={data.language} />
-                    <BoxInfo label="Number Of Page" value={data.number_of_page} />
-                    <BoxInfo label="Shelf Location" value={data.shelf_location} />
-                    <BoxInfo label="Description" value={data.description} />
+                    <Viewbox label="ISBN" value={data.isbn} />
+                    <Viewbox label="Title" value={data.title} />
+                    <Viewbox label="Authors" value={data.authors} />
+                    <Viewbox label="Publisher" value={data.publisher} />
+                    <Viewbox label="Publication Year" value={data.publication_year} />
+                    <Viewbox label="Edition" value={data.edition} />
+                    <Viewbox label="Genre" value={data.genre} />
+                    <Viewbox label="Language" value={data.language} />
+                    <Viewbox label="Number Of Page" value={data.number_of_pages} />
+                    <Viewbox label="Shelf Location" value={data.shelf_location} />
+                    <Viewbox label="Description" value={data.description} />
                 </tbody>
             </table>
         </div>
@@ -96,3 +85,5 @@ const View = () => {
 };
 
 export default View;
+
+

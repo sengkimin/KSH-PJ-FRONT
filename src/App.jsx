@@ -12,10 +12,15 @@ import AppLayout from "./components/AppLayout";
 import MemberPage from "./pages/member/MemberPage";
 import UserAccountListPage from "./pages/userAcc/UserAcounts";
 
+
 import ViewUserAccountinfo from "./pages/userAcc/ViewUserAccountunfo";
 import NewUserAccount from "./pages/userAcc/CreateUserAccounts";
 
 import View from "./pages/bookCatalog/Detailbook";
+
+import View from "./pages/bookCatalog/BookcataloginfoPage";
+import BookForm from "./pages/bookCatalog/CreatebookcatalogPage";
+
 
 
 function App() {
@@ -35,6 +40,7 @@ function App() {
         <Route path="/book-issue" element={<BookIssuePage />} />
         <Route path="/member" element={<MemberPage />} />
         <Route path="/book/:id" element={<View />} />
+        <Route path="/book-create" element={<BookForm />} />
       </Route>
 
     </Routes>
