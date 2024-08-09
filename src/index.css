@@ -7,3 +7,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+Button.Button-blue{
+  background-color: #1a73e8;
+}
+Button.Button-red{
+  background-color: red;
+
+}
