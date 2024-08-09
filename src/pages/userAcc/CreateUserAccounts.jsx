@@ -40,16 +40,7 @@ const NewUserAccountForm = () => {
                 alert('Unexpected response status: ' + response.status);
             }
         } catch (error) {
-            if (error.response) {
-                setError(`Error: ${error.response.data.message || error.response.status}`);
-                console.error('Error response data:', error.response.data);
-            } else if (error.request) {
-                setError('Error: No response received from server.');
-                console.error('Error request:', error.request);
-            } else {
-                setError(`Error: ${error.message}`);
-                console.error('Error message:', error.message);
-            }
+            console.error('Error message:', error.message);
         }
     };
 
