@@ -11,13 +11,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import AppLayout from "./components/AppLayout";
 import MemberPage from "./pages/member/MemberPage";
 import UserAccountListPage from "./pages/userAcc/UserAcounts";
-
-
 import ViewUserAccountinfo from "./pages/userAcc/ViewUserAccountunfo";
 import NewUserAccount from "./pages/userAcc/CreateUserAccounts";
-
-import View from "./pages/bookCatalog/Detailbook";
-
 import View from "./pages/bookCatalog/BookcataloginfoPage";
 import BookForm from "./pages/bookCatalog/CreatebookcatalogPage";
 
