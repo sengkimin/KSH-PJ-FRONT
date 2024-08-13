@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
-
+import { Link} from 'react-router-dom';
+import MyBtn from '../../components/CreateButton';
 const BookIssueForm = () => {
   const [isbn, setIsbn] = useState('');
   const [memberCode, setMemberCode] = useState('');
@@ -78,7 +79,7 @@ const BookIssueForm = () => {
 
   return (
     <div style={{ maxWidth: '400px' }}>
-      <h2 className='text-3xl font-bold font-black'>New Book Issue</h2>
+      <h2 className='text-3xl font-bold '>New Book Issue</h2>
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '1em' }}>
           <label htmlFor="isbn" style={{ display: 'block', marginBottom: '0.5em' }} className='font-black'>ISBN</label>
@@ -123,9 +124,10 @@ const BookIssueForm = () => {
           />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <button type="button" onClick={() => { setIsbn(''); setMemberCode(''); setIssueDate(''); setDueDate(''); }} style={{ padding: '0.5em 1em', backgroundColor: '#d1d1d1', border: 'none', fontSize: '1em' }}>
+          {/* <button type="button" onClick={() => { setIsbn(''); setMemberCode(''); setIssueDate(''); setDueDate(''); }} style={{ padding: '0.5em 1em', backgroundColor: '#d1d1d1', border: 'none', fontSize: '1em' }}>
             Cancel
-          </button>
+          </button> */}
+           <Link to={"/book-issue"}><MyBtn text ="cancel"></MyBtn></Link>
           <button type="submit" style={{ padding: '0.5em 1em', backgroundColor: '#007bff', color: '#fff', border: 'none', fontSize: '1em' }}>
             Save
           </button>

@@ -1,4 +1,4 @@
-function InformationBookIssue ({Label, Value}){
+function InfoBookIssue ({Label, Value}){
     return (
         <div className=" flex py-7 px-8">
             <div className=" w-[200px] font-bold">
@@ -10,4 +10,4 @@ function InformationBookIssue ({Label, Value}){
         </div>
     );
 }
-export default InformationBookIssue;
+export default InfoBookIssue;

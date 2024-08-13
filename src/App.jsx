@@ -25,7 +25,7 @@ function App() {
           {/* <Route path="/book-catalog:id" element={<BookCatalogPage />} /> */}
         </Route>
         <Route path="/NewBookIssue" element={<NewBookIssue />} />
-        <Route path="/ViewBookIssue" element={<ViewBookIssue />} />
+        <Route path="/ViewBookIssue/:id" element={<ViewBookIssue />} />
 
 
         <Route path="/book-catalog" element={<BookCatalogPage />} />

@@ -1,7 +1,9 @@
 import React from "react";
-function CreateButton(){
+function MyBtn({ text, type, onClick }){
     return(
-        <button className="bg-blue-500 px-8 py-3 rounded-md my-4">Create</button>
+        <div>
+            <button className={`px-8 py-2 text-white bg-slate-400 ${type}`} onClick={onClick}>{text}</button>
+        </div>
     )
 }
-export default CreateButton;
+export default MyBtn;
