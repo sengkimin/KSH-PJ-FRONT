@@ -148,10 +148,10 @@ const BookForm = () => {
                 <div className="col-span-2 flex space-x-4">
                     <Button 
                         onClick={() => navigate('/book-catalog')} 
-                        text='Back' 
+                        text='Cancel' 
                     />
                     <Button 
-                        type="submit" 
+                      
                         text='Save' 
                         kind='Button-blue'
                     />
@@ -162,3 +162,5 @@ const BookForm = () => {
 };
 
 export default BookForm;
+
+
