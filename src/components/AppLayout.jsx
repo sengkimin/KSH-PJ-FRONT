@@ -14,49 +14,55 @@ function AppLayout() {
   return (
     <PrivateRoute>
       <div className="bg-gray-100 h-auto flex">
-        <div className="w-64 bg-gray-800 text-white flex-shrink-0">
-          <div className="p-4 text-center text-2xl font-semibold border-b border-gray-700">
-            WMAD
+        <div className="w-80 bg-orange-100 text-white flex-shrink-0">
+          <div className="p-5 text-center text-2xl text-green-700 font-semibold border-b border-gray-700">
+            KSH
           </div>
           <nav className="mt-4">
-            <Link to="/" className="block py-2.5 px-4 hover:bg-gray-700">
+            <Link to="/" className="block text-xl font-bold text-black py-4 px-4  hover:bg-green-800 hover:text-white">
               Dashboard
             </Link>
             <Link
               to="/user-account"
-              className="block py-2.5 px-4 hover:bg-gray-700"
+              className="block text-xl font-bold  text-black py-4 px-4  hover:bg-green-800 hover:text-white"
             >
-              User Account
+              Reseidents List
             </Link>
             <Link
               to="/book-catalog"
-              className="block py-2.5 px-4 hover:bg-gray-700"
+              className="block text-xl font-bold  text-black py-4 px-4  hover:bg-green-800 hover:text-white"
             >
-              Book Catalog
+              Programs
             </Link>
             <Link
               to="/book-issue"
-              className="block py-2.5 px-4 hover:bg-gray-700"
+              className="block text-xl font-bold text-black py-4  px-4  hover:bg-green-800 hover:text-white"
             >
-              Book Issue
+              Assesment
             </Link>
-            <Link to="/member" className="block py-2.5 px-4 hover:bg-gray-700">
-              Member
+            <Link to="/member" className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white">
+             Reporting
             </Link>
           </nav>
         </div>
 
         <div className="flex-1 flex flex-col">
           <header className="flex items-center justify-between p-4 bg-white shadow-md">
-            <div className="text-xl font-medium">LMS</div>
+          <div className="justify-center">
+          <img
+            src="khslogo.jpg"
+            alt="Logo"
+            className="h-10 w-10 rounded-full"
+          />
+        </div>
             <div className="flex items-center space-x-4">
-              <div className="text-gray-700">Admin</div>
-              <button className="bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+              {/* <div className="text-gray-700">Admin</div> */}
+              <button className="bg-gray-400 text-white p-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
                 <FaUser className="w-4 h-4" />
               </button>
               <button
                 onClick={handleLogOut}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                className="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-800"
               >
                 Log Out
               </button>
@@ -64,7 +70,7 @@ function AppLayout() {
           </header>
 
           <main className="flex-1 p-6">
-            <Outlet context={{}} />
+            <Outlet />
           </main>
         </div>
       </div>
