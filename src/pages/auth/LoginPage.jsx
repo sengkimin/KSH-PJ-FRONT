@@ -40,7 +40,7 @@ const LoginPage = () => {
         <div className="flex flex-col items-center mb-14">
           <hr className="w-1/2 md:w-2/3 border-stone-600" />
         </div>
-        <form className="space-y-4">
+        <form className="space-y-5">
           <div className="mb-4">
             <label className="block text-sm font-bold mb-3" htmlFor="type">
               Type
@@ -51,7 +51,7 @@ const LoginPage = () => {
               onChange={(e) => setType(e.target.value)}
               className="w-full p-4 border border-stone-600 rounded-md outline-none"
             >
-              <option value="">Select your type</option>
+              <option  value="">Select your type</option>
               <option value="admin">Admin</option>
               <option value="education">Education Team</option>
               <option value="group">Group Leader</option>
