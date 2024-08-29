@@ -9,6 +9,7 @@ import Assesment from "./pages/Assesment/AssesmentPage";
 import Reporting from "./pages/Reporting/ReportingPage";
 import ResidentInfo from "./pages/Residents/ResidentInfo";
 import NotFoundPage from "./pages/NotFoundPage"; 
+import Activities from "./pages/Activities/ActivitiesPage";
 
 function App() {
   return (
@@ -22,7 +23,15 @@ function App() {
         <Route path="/program" element={<Program />} />
         <Route path="/assesment" element={<Assesment />} />
         <Route path="/reporting" element={<Reporting />} />
+        <Route path="/activities" element={<Activities />} />
+
+   
+     
+
+
+
       </Route>
+
     </Routes>
   );
 }

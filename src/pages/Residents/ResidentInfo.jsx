@@ -11,10 +11,11 @@ const ResidentInfo = () => {
             Back
           </button>
         </Link>
-        
+        <Link to='/activities'>
         <button className="bg-green-700 text-white px-6 py-1.5 md:px-10 md:py-2 rounded">
           Activities
         </button>
+        </Link>
       </div>
       
       <div className="flex justify-center mb-6">
