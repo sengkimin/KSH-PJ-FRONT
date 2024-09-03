@@ -4,10 +4,13 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import AppLayout from "./components/AppLayout";
 import Residents from "./pages/Residents/ResidentPage";
+import ResidentInfo from "./pages/Residents/ResidentInfoPage";
 import Program from "./pages/Program/ProgramPage";
 import Assesment from "./pages/Assesment/AssesmentPage";
 import Reporting from "./pages/Reporting/ReportingPage";
 import Medical from "./pages/Medical/MedicalPage";
+
+
 
 
 import NotFoundPage from "./pages/NotFoundPage"; 
@@ -22,6 +25,7 @@ function App() {
     
         <Route path="/medical" element={<Medical/>}/>
         <Route path="/" element={<Residents />} />
+        <Route path="/residents/:id" element={<ResidentInfo />} />
         <Route path="/program" element={<Program />} />
         <Route path="/assesment" element={<Assesment />} />
         <Route path="/reporting" element={<Reporting />} />
