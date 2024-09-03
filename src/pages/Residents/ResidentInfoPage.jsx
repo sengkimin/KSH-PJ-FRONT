@@ -6,15 +6,16 @@ const ResidentInfo = () => {
   return (
     <>
       <div className="flex space-x-4 mb-6">
-        <Link to='/residents'>
+        <Link to='/'>
           <button className="bg-gray-300 px-6 py-1.5 md:px-12 md:py-2 rounded">
             Back
           </button>
         </Link>
-        
+        <Link to='/activities'>
         <button className="bg-green-700 text-white px-6 py-1.5 md:px-10 md:py-2 rounded">
           Activities
         </button>
+        </Link>
       </div>
       
       <div className="flex justify-center mb-6">
