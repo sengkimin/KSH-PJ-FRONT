@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ResidentBoxInfo from '../../components/ResidentBoxInfo';
+import axios from 'axios';
 
 const ResidentInfo = () => {
+  const [residentData, setResidentData] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:1337/api/beneficiaries/3')
+      .then(response => {
+        setResidentData(response.data.data.attributes);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the resident data!", error);
+      });
+  }, []);
+
+  if (!residentData) {
+    return <p>Loading...</p>; 
+  }
+
   return (
     <>
-      <div className="flex space-x-4 mb-6">
-        <Link to='/residents'>
+      <div className="flex space-x-4 mb-8 mt-6 ml-4">
+        <Link to='/'>
           <button className="bg-gray-300 px-6 py-1.5 md:px-12 md:py-2 rounded">
             Back
           </button>
@@ -25,28 +42,21 @@ const ResidentInfo = () => {
         />
       </div>
       
-      <h1 className="text-xl md:text-2xl font-bold text-center mb-6">
+      <h1 className="text-xl md:text-3xl font-bold text-center mb-6">
         Detail Information of Student
       </h1>
       
-      <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
-        <div className="bg-white w-full max-w-xl md:max-w-4xl lg:max-w-7xl rounded-lg shadow p-4 md:p-6 text-sm md:text-base">
-          <ResidentBoxInfo name="Full Name"/>
-          <ResidentBoxInfo name="Age"/>
-          <ResidentBoxInfo name="Live in"/>
-          <ResidentBoxInfo name="Family"/>
-          <ResidentBoxInfo name="Birth certificate"/>
-          <ResidentBoxInfo name="CV"/>
-          <ResidentBoxInfo name="Health allow"/>
-          <ResidentBoxInfo name="Permission"/>
-          <ResidentBoxInfo name="Certificate of Disease"/>
-          <ResidentBoxInfo name="ALD knowledge"/>
-          <ResidentBoxInfo name="Contact"/>
-          <ResidentBoxInfo name="Learn thing new to develop their self"/>
-          <ResidentBoxInfo name="Mental retardation"/>
-          <ResidentBoxInfo name="Down syndrome"/>
-          <ResidentBoxInfo name="Mild autistic or Mild autism"/>
-          <ResidentBoxInfo name="Cerebral palsy or Epilepsy"/>
+      <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8">
+        <div className="bg-white w-full max-w-7xl rounded-lg p-4 md:p-6 ">
+          <ResidentBoxInfo name="Full Name" value={residentData.fullname_english} showButton={false}/>
+          <ResidentBoxInfo name="Gender" value={residentData.gender}  showButton={false}/>
+          <ResidentBoxInfo name="Type Of Disability" value={residentData.type_of_disability} />
+          <ResidentBoxInfo name="Date Of Birth" value={residentData.date_of_birth} />
+          <ResidentBoxInfo name="Required Medical Use" value={residentData.is_required_medical_use ? "Yes" : "No"} />
+          <ResidentBoxInfo name="Medical Use" value={residentData.medical_use} />
+          <ResidentBoxInfo name="Is Active" value={residentData.is_active ? "Yes" : "No"} />
+          <ResidentBoxInfo name="Start Date" value={residentData.start_date}showButton={false} />
+          <ResidentBoxInfo name="End Date" value={residentData.end_date}showButton={false} />
         </div>
       </div>
     </>
