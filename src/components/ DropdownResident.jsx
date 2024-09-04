@@ -4,14 +4,14 @@ const DropdownResident = () => {
 
   return (
     <div className="mb-4 flex">
-      <label className="block text-xl  mt-3" htmlFor="type">
+      <label className="block text-xl mt-4 mr-6 font-bold" htmlFor="type">
       Level :
       </label>
       <select
         id="type"
         value={type}
         onChange={(e) => setType(e.target.value)}
-        className=" p-2 border border-stone-600 rounded-md outline-none mt-1 h-11"
+        className=" p-2 border border-stone-600 rounded-md outline-none mt-3 h-9  w-28"
       >
         <option value="">Year 1</option>
         <option value="admin">Year 2</option>
