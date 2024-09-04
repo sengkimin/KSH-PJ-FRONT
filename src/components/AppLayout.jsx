@@ -25,56 +25,77 @@ const AppLayout = () => {
 
   return (
     <PrivateRoute>
-      <div className="relative bg-gray-100 h-auto flex">
+      <div className="relative bg-gray-100 h-full flex">
         <div
           className={`fixed inset-y-0 left-0 md:w-80 bg-[#F0E7D4] sm:w-64 text-white transform transition-transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } md:static md:translate-x-0 md:w-80`}
         >
-          <div className="p-5 text-center text-2xl text-green-700 font-semibold border-b border-gray-700">
+          <div className="p-5 text-center text-3xl md:text-5xl text-[#207137] font-semibold border-b border-gray-700">
             KSH
           </div>
           <nav className="mt-4">
             <Link
               to="/"
-              className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
+              className="block text-xl md:text-2xl font-bold text-[#474747] py-4 md:py-6 px-4 hover:bg-[#207137]  hover:text-white flex items-center"
               onClick={closeSidebar}
             >
-              Residents List
+              <img 
+              src="/resident.png"
+              alt="Residents"
+              className="h-16 w-15 md:w-17 mr-6" />
+
+              Residents
             </Link>
             {(userRole === 'Authenticated' || userRole === 'Public') && (
               <Link
                 to="/program"
-                className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
+                className="block text-xl  md:text-2xl font-bold text-[#474747] py-4 md:py-6 px-4 hover:bg-green-800 hover:text-white flex items-center"
                 onClick={closeSidebar}
               >
+                   <img 
+              src="/program.png"
+              alt="Programs"
+              className="h-16 w-15 md:w-18 mr-6" />
                 Programs
               </Link>
             )}
             {(userRole === 'Authenticated' || userRole === 'Public') && (
               <Link
                 to="/assesment"
-                className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
+                className="block text-xl  md:text-2xl font-bold text-[#474747] py-4 md:py-6 px-4 hover:bg-green-800 hover:text-white flex items-center"
                 onClick={closeSidebar}
               >
+                   <img 
+              src="/assesment.png"
+              alt="Assesment"
+              className="h-17 w-20 mr-10" />
                 Assessment
               </Link>
             )}
-            {userRole === 'Authenticated' && (
+            {(userRole === 'Authenticated'|| userRole === 'Public') && (
               <Link
                 to="/reporting"
-                className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
+                className="block text-xl  md:text-2xl font-bold text-[#474747] py-4  md:py-6 px-4 hover:bg-green-800 hover:text-white flex items-center"
                 onClick={closeSidebar}
               >
+               <img 
+              src="/report.png"
+              alt="Reporting"
+              className="h-17 w-20 mr-10" />
                 Reporting
               </Link>
             )}
             {(userRole === 'Authenticated' || userRole === 'Public') && (
               <Link
                 to="/medical"
-                className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
+                className="block text-xl  md:text-2xl font-bold text-[#474747] py-4 md:py-6 px-4 hover:bg-green-800 hover:text-white flex items-center"
                 onClick={closeSidebar}
               >
+                   <img 
+              src="/medicals.png"
+              alt="Medical"
+              className="h-17 w-20 mr-10" />
                 Medical
               </Link>
             )}
@@ -87,7 +108,7 @@ const AppLayout = () => {
               <img
                 src="/khslogo.jpg"
                 alt="Logo"
-                className="h-10 w-10 rounded-full"
+                className="h-11 w-11 md:h-14 md:w-14 rounded-full"
               />
             </div>
             <div className="flex items-center space-x-4">
