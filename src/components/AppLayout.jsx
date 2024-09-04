@@ -6,7 +6,7 @@ import PrivateRoute from "../pages/auth/PrivateRoute";
 
 const AppLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
+
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole");
 
@@ -42,7 +42,7 @@ const AppLayout = () => {
             >
               Residents List
             </Link>
-            {userRole === 'Authenticated' || 'Public' && (
+            {(userRole === 'Authenticated' || userRole === 'Public') && (
               <Link
                 to="/program"
                 className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
@@ -51,7 +51,7 @@ const AppLayout = () => {
                 Programs
               </Link>
             )}
-            {userRole === 'Authenticated' || 'Public' && (
+            {(userRole === 'Authenticated' || userRole === 'Public') && (
               <Link
                 to="/assesment"
                 className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
@@ -69,7 +69,7 @@ const AppLayout = () => {
                 Reporting
               </Link>
             )}
-            {userRole === 'Authenticated' || 'Public' && (
+            {(userRole === 'Authenticated' || userRole === 'Public') && (
               <Link
                 to="/medical"
                 className="block text-xl font-bold text-black py-4 px-4 hover:bg-green-800 hover:text-white"
@@ -110,7 +110,6 @@ const AppLayout = () => {
               </button>
             </div>
           </header>
-
           <main className="flex-1 p-6">
             <Outlet />
           </main>
@@ -121,6 +120,3 @@ const AppLayout = () => {
 };
 
 export default AppLayout;
-
-
-
