@@ -24,7 +24,7 @@ const ResidentList = () => {
     <div className='flex justify-center items-center w-full'>
       <div className='w-[94%]'>
         <div className='flex justify-between items-center mb-10'>
-          <div className='font-bold text-4xl'>Residents</div>
+          <div className='font-bold text-3xl md:text-4xl'>Residents</div>
           <DropdownResident />
         </div>
         <div>
