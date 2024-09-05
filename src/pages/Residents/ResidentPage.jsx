@@ -20,6 +20,12 @@ const ResidentList = () => {
     fetchResidents();
   }, []);
 
+  const calculateAge = (dob) => {
+    const currentYear = new Date().getFullYear();
+    const birthYear = new Date(dob).getFullYear();
+    return currentYear - birthYear;
+  };
+
   return (
     <div className='flex justify-center items-center w-full'>
       <div className='w-[94%]'>
@@ -31,9 +37,9 @@ const ResidentList = () => {
           {residents.map(resident => (
             <BoxResident
               key={resident.id}
-              image="student.jpg"  
+              image="student.jpg"
               name={resident.attributes.fullname_english}
-              age={resident.attributes.type_of_disability}
+              age={calculateAge(resident.attributes.date_of_birth)}
             />
           ))}
         </div>
@@ -43,3 +49,4 @@ const ResidentList = () => {
 };
 
 export default ResidentList;
+

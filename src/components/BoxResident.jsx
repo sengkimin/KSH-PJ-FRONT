@@ -13,7 +13,7 @@ function BoxResident({ image, name, age }) {
         />
         <div className="text-left ml-6">
           <p className="text-[#207137] font-bold sm:text-[18px]  md:text-[22px]">Name : {name}</p>
-          <p className=' text-[14px] md:text-[18px]'>Disability : {age} </p>
+          <p className=' text-[16px] md:text-[20px]'>Age : {age} years old</p>
         </div>
       </div>
       <div className="flex space-x-4">
