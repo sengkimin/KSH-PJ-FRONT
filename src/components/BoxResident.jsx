@@ -1,8 +1,6 @@
 import React from 'react';
 import { FaEye } from "react-icons/fa";
-
-
-function BoxResident({ image, name, age }) {
+function BoxResident({ image, name, medical_use }) {
   return (
     <div className="flex items-center justify-between p-3 border-b-[1px] border-black" style={{ backgroundColor: '#F6F6F6' }}>
       <div className="flex items-center">
@@ -13,7 +11,7 @@ function BoxResident({ image, name, age }) {
         />
         <div className="text-left ml-6">
           <p className="text-[#207137] font-bold text-[23px]">Name : {name}</p>
-          <p className='text-[18px]'>Disability : {age} </p>
+          <p className='text-[18px]'>Medical-Use : {medical_use} </p>
         </div>
       </div>
       <div className="flex space-x-4">
