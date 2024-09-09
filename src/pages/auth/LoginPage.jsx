@@ -19,7 +19,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
     };
   
     try {
-      // Authenticate the user
       const response = await fetch("http://localhost:1337/api/auth/local", {
         method: "POST",
         headers: {
@@ -73,7 +72,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
   
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-4">
-      <div className="flex flex-col justify-center w-full md:w-1/3 p-8 bg-white rounded-lg mx-4 md:mx-0 md:mr-12 shadow-lg">
+      <div className="flex flex-col justify-center w-full md:w-1/3 p-8 bg-white rounded-lg mx-4 md:mx-0 md:mr-12 ">
         <div className="flex justify-center mb-6 md:mb-16">
           <img src="khslogo.jpg" alt="Logo" className="h-24 w-24 rounded-full" />
         </div>
@@ -131,7 +130,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         </form>
       </div>
 
-      <div className="hidden md:block md:w-2/3 h-screen mt-3">
+      <div className="hidden md:block md:w-1/2 h-screen mt-3">
         <img src="kshteam.jpg" alt="Group" className="object-cover w-full h-full rounded-xl" />
       </div>
     </div>
