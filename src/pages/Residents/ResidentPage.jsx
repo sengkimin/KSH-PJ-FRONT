@@ -1,25 +1,38 @@
-
 import React, { useEffect, useState } from 'react';
 import BoxResident from '../../components/BoxResident';
-import DropdownResident from '../../components/ DropdownResident';
+import DropdownResident from "../../components/ DropdownResident";
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
+  const location = useLocation();
+  const { type } = location.state || { type: "1" }; // Default to "1" if type is not provided
 
   useEffect(() => {
     const fetchResidents = async () => {
+      if (!type) return;
+
+      const currentYear = new Date().getFullYear();
+      const lastDayOfYear = new Date(currentYear, 11, 31);
+      const day = lastDayOfYear.getDate();
+      const month = lastDayOfYear.getMonth() + 1;
+      const year = lastDayOfYear.getFullYear();
+
+      const url = `http://localhost:1337/api/curriculum-program-levels?filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][end_date][$lte]=${year}-${month}-${day}&populate[residents][populate]=profile_img_url&populate=*`;
+
       try {
-        const response = await axios.get('http://localhost:1337/api/beneficiaries');
-        const data = response.data?.data || [];  
+        const response = await axios.get(url);
+        const data = response.data?.data || [];
         setResidents(data);
+        console.log(data);
       } catch (error) {
         console.error('Error fetching the residents data:', error);
       }
     };
 
     fetchResidents();
-  }, []);
+  }, [type]);
 
   const calculateAge = (dob) => {
     const currentYear = new Date().getFullYear();
@@ -27,30 +40,39 @@ const ResidentList = () => {
     return currentYear - birthYear;
   };
 
-
   return (
-
-    <div className='flex justify-center items-center w-full'>
-      <div className='w-[94%]'>
-        <div className='flex justify-between items-center mb-10'>
-          <div className='font-bold text-3xl md:text-4xl'>Residents</div>
+    <div className="flex justify-center items-center w-full">
+      <div className="w-[94%]">
+        <div className="flex justify-between items-center mb-10">
+          <div className="font-bold text-3xl md:text-4xl">Residents</div>
           <DropdownResident />
         </div>
         <div>
-          {residents.map(resident => (
-            <BoxResident
-              key={resident.id}
-              image="student.jpg"
-              name={resident.attributes.fullname_english}
-              age={calculateAge(resident.attributes.date_of_birth)}
-            />
-          ))}
+          {residents.length > 0 ? (
+            residents.map((resident) =>
+              resident.attributes.residents.data.map((EachResident) => {
+                const profileImgUrl = EachResident.profile_img_url?.data?.attributes?.url
+                  ? `http://localhost:1337${EachResident.profile_img_url.data.attributes.url}`
+                  : null;
+
+                return (
+                  <BoxResident
+                    key={EachResident.id}
+                    id={EachResident.id}
+                    image={profileImgUrl}
+                    name={EachResident.attributes.fullname_english}
+                    age={calculateAge(EachResident.attributes.date_of_birth)}
+                  />
+                );
+              })
+            )
+          ) : (
+            <div>No residents found for this level.</div>
+          )}
         </div>
       </div>
     </div>
-
   );
 };
 
 export default ResidentList;
-
