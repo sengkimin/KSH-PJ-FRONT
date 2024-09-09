@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ResidentBoxInfo from '../../components/ResidentBoxInfo';
 import axios from 'axios';
 
 const ResidentInfo = () => {
+  const { id } = useParams();  // Extract the ID from the URL
   const [residentData, setResidentData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:1337/api/beneficiaries/3')
+    axios.get(`http://localhost:1337/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`)
       .then(response => {
         setResidentData(response.data.data.attributes);
       })
       .catch(error => {
         console.error("There was an error fetching the resident data!", error);
       });
-  }, []);
+  }, [id]);  // Re-fetch data when the ID changes
 
+  console.log(residentData)
   if (!residentData) {
     return <p>Loading...</p>; 
   }
@@ -28,13 +30,11 @@ const ResidentInfo = () => {
             Back
           </button>
         </Link>
-        
-  
       </div>
       
       <div className="flex justify-center mb-6">
         <img
-          src="/student.jpg"
+          src={residentData.profile_img_url.data.attributes.formats.thumbnail.url}
           alt="Student"
           className="h-24 w-24 md:h-36 md:w-36 rounded-full"
         />
@@ -53,8 +53,8 @@ const ResidentInfo = () => {
           <ResidentBoxInfo name="Required Medical Use" value={residentData.is_required_medical_use ? "Yes" : "No"} />
           <ResidentBoxInfo name="Medical Use" value={residentData.medical_use} />
           <ResidentBoxInfo name="Is Active" value={residentData.is_active ? "Yes" : "No"} />
-          <ResidentBoxInfo name="Start Date" value={residentData.start_date}showButton={false} />
-          <ResidentBoxInfo name="End Date" value={residentData.end_date}showButton={false} />
+          <ResidentBoxInfo name="Start Date" value={residentData.start_date} showButton={false} />
+          <ResidentBoxInfo name="End Date" value={residentData.end_date} showButton={false} />
         </div>
       </div>
     </>
