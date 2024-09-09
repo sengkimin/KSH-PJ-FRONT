@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaEye } from "react-icons/fa";
+import {Link} from "react-router-dom"
 
 
 function BoxResident({ image, name, age }) {
@@ -16,7 +17,9 @@ function BoxResident({ image, name, age }) {
           <p className=' text-[16px] md:text-[20px]'>Age : {age} years old</p>
         </div>
       </div>
-      <div className="flex space-x-4">
+     
+    <div className="flex space-x-4">
+    <Link to='/residentinfo'>
   <button className="text-[16px] bg-gray-300 text-black px-2 md:px-8 py-1 rounded hover:bg-gray-400 flex items-center space-x-2">
  
     <FaEye className="h-5 w-5 text-black" />
@@ -24,6 +27,7 @@ function BoxResident({ image, name, age }) {
 
  
   </button>
+  </Link>
 </div>
 
     </div>

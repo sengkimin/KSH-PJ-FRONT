@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import BoxResident from '../../components/BoxResident';
 import DropdownResident from '../../components/ DropdownResident';
@@ -26,7 +27,9 @@ const ResidentList = () => {
     return currentYear - birthYear;
   };
 
+
   return (
+
     <div className='flex justify-center items-center w-full'>
       <div className='w-[94%]'>
         <div className='flex justify-between items-center mb-10'>
@@ -45,6 +48,7 @@ const ResidentList = () => {
         </div>
       </div>
     </div>
+
   );
 };
 
