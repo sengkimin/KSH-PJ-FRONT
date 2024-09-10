@@ -4,23 +4,30 @@ import ResidentBoxInfo from '../../components/ResidentBoxInfo';
 import axios from 'axios';
 
 const ResidentInfo = () => {
-  const { id } = useParams();  // Extract the ID from the URL
+  const { id } = useParams();  
   const [residentData, setResidentData] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:1337/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`)
-      .then(response => {
+    const fetchResidentData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:1337/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`);
         setResidentData(response.data.data.attributes);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error("There was an error fetching the resident data!", error);
-      });
-  }, [id]);  // Re-fetch data when the ID changes
+      }
+    };
 
-  console.log(residentData)
+    fetchResidentData();
+  }, [id]);  
+
   if (!residentData) {
     return <p>Loading...</p>; 
   }
+
+  
+  const profileImageUrl = residentData.profile_img_url?.data?.attributes?.formats?.thumbnail?.url
+    ? `http://localhost:1337${residentData.profile_img_url.data.attributes.formats.thumbnail.url}`
+    : null;
 
   return (
     <>
@@ -33,11 +40,15 @@ const ResidentInfo = () => {
       </div>
       
       <div className="flex justify-center mb-6">
-        <img
-          src={residentData.profile_img_url.data.attributes.formats.thumbnail.url}
-          alt="Student"
-          className="h-24 w-24 md:h-36 md:w-36 rounded-full"
-        />
+        {profileImageUrl ? (
+          <img
+            src={profileImageUrl}
+            alt="Student"
+            className="h-24 w-24 md:h-36 md:w-36 rounded-full"
+          />
+        ) : (
+          <p>No Image Available</p>
+        )}
       </div>
       
       <h1 className="text-xl md:text-3xl font-bold text-center mb-6">
