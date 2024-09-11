@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ResidentBoxInfo from '../../components/ResidentBoxInfo';
@@ -54,32 +58,48 @@ const ResidentInfo = () => {
         Detail Information of Student
       </h1>
 
-      {/* {profileImageUrl && (
-        <div className="flex justify-center mb-6">
-          <a
-            href={profileImageUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="bg-blue-500 text-white px-6 py-2 rounded">
-              View Full Image
-            </button>
-          </a>
-        </div>
-      )} */}
-      
       <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8">
         <div className="bg-white w-full max-w-7xl rounded-lg p-4 md:p-6">
-          <ResidentBoxInfo name="Full Name" value={residentData.fullname_english} showButton={false}/>
-          <ResidentBoxInfo name="Gender" value={residentData.gender}  showButton={false}/>
-          <ResidentBoxInfo name="Type Of Disability" value={residentData.type_of_disability} showButton={true}
-    linkUrl={profileImageUrl}/>
+          <ResidentBoxInfo name="Full Name" value={residentData.fullname_english}/>
+          <ResidentBoxInfo name="Gender" value={residentData.gender}  />
+          <ResidentBoxInfo name="Type Of Disability" value={residentData.type_of_disability}/>
           <ResidentBoxInfo name="Date Of Birth" value={residentData.date_of_birth} />
           <ResidentBoxInfo name="Required Medical Use" value={residentData.is_required_medical_use ? "Yes" : "No"} />
           <ResidentBoxInfo name="Medical Use" value={residentData.medical_use} />
           <ResidentBoxInfo name="Is Active" value={residentData.is_active ? "Yes" : "No"} />
-          <ResidentBoxInfo name="Start Date" value={residentData.start_date} showButton={false} />
-          <ResidentBoxInfo name="End Date" value={residentData.end_date} showButton={false} />
+          <ResidentBoxInfo name="Start Date" value={residentData.start_date}/>
+          <ResidentBoxInfo name="End Date" value={residentData.end_date}  />
+
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
+          <div className="flex flex-col items-center">
+           <h1 className="mb-6 text-2xl font-bold">Family Book</h1>
+          <a href="/fam.jpeg" target="_blank" rel="noopener noreferrer">
+           <img src="/fam.jpeg" alt="familybook" className="w-full" />
+         </a>
+        </div>
+         <div className="flex flex-col items-center">
+            <h1 className="mb-6 text-2xl font-bold">Family Book</h1>
+            <a href="/fam.jpeg" target="_blank" rel="noopener noreferrer">
+
+          <img src="/fam.jpeg" alt="familybook" className="w-full" />
+          </a>
+          </div>
+         <div className="flex flex-col items-center">
+         <h1 className="mb-6 text-2xl font-bold">Family Book</h1>
+         <a href="/fam.jpeg" target="_blank" rel="noopener noreferrer">
+
+           <img src="/fam.jpeg" alt="familybook" className="w-full" />
+           </a>
+           </div>
+           <div className="flex flex-col items-center">
+           <h1 className="mb-6 text-2xl font-bold">Family Book</h1>
+           <a href="/fam.jpeg" target="_blank" rel="noopener noreferrer">
+
+           <img src="/fam.jpeg" alt="familybook" className="w-full" />
+           </a>
+        </div>
+
+       </div>
         </div>
       </div>
     </>
