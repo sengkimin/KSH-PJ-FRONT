@@ -5,20 +5,26 @@ import axios from 'axios';
 
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
+  const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
     const fetchResidents = async () => {
       try {
-        const response = await axios.get('http://localhost:1337/api/beneficiaries');
-        const data = response.data?.data || [];  
+        const response = await axios.get('http://localhost:1337/api/beneficiaries', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = response.data?.data || [];
         setResidents(data);
       } catch (error) {
         console.error('Error fetching the residents data:', error);
       }
     };
-
+  
     fetchResidents();
   }, []);
+  
 
   const calculateAge = (dob) => {
     const currentYear = new Date().getFullYear();
