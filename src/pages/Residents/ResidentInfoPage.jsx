@@ -10,11 +10,16 @@ import axios from 'axios';
 const ResidentInfo = () => {
   const { id } = useParams();  
   const [residentData, setResidentData] = useState(null);
+  const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
     const fetchResidentData = async () => {
       try {
-        const response = await axios.get(`http://localhost:1337/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`);
+        const response = await axios.get(`http://localhost:1337/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`,{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            },
+        });
         setResidentData(response.data.data.attributes);
       } catch (error) {
         console.error("There was an error fetching the resident data!", error);
