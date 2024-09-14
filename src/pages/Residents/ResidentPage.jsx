@@ -36,7 +36,7 @@ const ResidentList = () => {
         console.error('Error fetching the residents data:', error);
       }
     };
-
+  
     fetchResidents();
   }, [type]);
 
