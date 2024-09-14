@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
+  const token = localStorage.getItem('jwtToken');
   const location = useLocation();
   const { type } = location.state || { type: "1" }; 
 
@@ -22,7 +23,11 @@ const ResidentList = () => {
       const url = `http://localhost:1337/api/curriculum-program-levels?filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][end_date][$lte]=${year}-${month}-${day}&populate[residents][populate]=profile_img_url&populate=*`;
 
       try {
-        console.log('Fetching data from:', url);
+        const response = await axios.get('http://localhost:1337/api/beneficiaries',{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            },
+        })
         const response = await axios.get(url);
         console.log('API Response:', response);
         const data = response.data?.data || [];
