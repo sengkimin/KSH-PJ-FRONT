@@ -3,7 +3,7 @@ import { FaEye } from "react-icons/fa";
 import {Link} from "react-router-dom"
 
 
-function BoxResident({ image, name, age }) {
+function BoxResident({ image, name, age ,id}) {
   return (
     <div className="flex items-center justify-between p-3 border-b-[1px] border-black" style={{ backgroundColor: '#F6F6F6' }}>
       <div className="flex items-center">
@@ -19,15 +19,14 @@ function BoxResident({ image, name, age }) {
       </div>
      
     <div className="flex space-x-4">
-    <Link to='/residentinfo'>
+    <Link to={`/residentinfo/${id}`}>
   <button className="text-[16px] bg-gray-300 text-black px-2 md:px-8 py-1 rounded hover:bg-gray-400 flex items-center space-x-2">
- 
     <FaEye className="h-5 w-5 text-black" />
     <p className="hidden sm:block">View</p>
-
- 
   </button>
-  </Link>
+</Link>
+
+
 </div>
 
     </div>
