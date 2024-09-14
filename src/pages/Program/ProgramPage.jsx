@@ -208,7 +208,7 @@ const ProgramPage = () => {
                 return (
                   <ProgramBox
                     key={activity.id}
-                    time={activity.activity_time}
+                    time={activity.activity_time.substring(0, 5)}
                     image={imageUrl}
                     title={activity.program_activity?.data?.attributes?.program_activity_name}
                   />
