@@ -120,33 +120,37 @@
 
 // export default ProgramPage;
 
+
 import React, { useState, useEffect } from 'react';
 import ProgramBox from '../../components/ProgramBox';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const ProgramPage = () => {
   const [data, setData] = useState([]);
-  const [type, setType] = useState('1'); 
+  const location = useLocation();
+  const { type: initialType } = location.state || { type: '1' };
+  const [type, setType] = useState(initialType); 
   const token = localStorage.getItem('jwtToken');
-
-  // Get the current year and last day of the year
-  const currentYear = new Date().getFullYear();
-  const lastDayOfYear = new Date(currentYear, 11, 31); 
-  const day = lastDayOfYear.getDate().toString().padStart(2, '0');
-  const month = (lastDayOfYear.getMonth() + 1).toString().padStart(2, '0');
-  const year = lastDayOfYear.getFullYear();
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!type) return;
+
+      const currentYear = new Date().getFullYear();
+      const lastDayOfYear = new Date(currentYear, 11, 31);
+      const day = lastDayOfYear.getDate().toString().padStart(2, '0');
+      const month = (lastDayOfYear.getMonth() + 1).toString().padStart(2, '0');
+      const year = lastDayOfYear.getFullYear();
+
+      const url = `http://localhost:1337/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][end_date][$gte]=${year}-${month}-${day}`;
+
       try {
-        const response = await axios.get(
-          `http://localhost:1337/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][end_date][$gte]=${year}-${month}-${day}`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const programs = response.data?.data || [];
         setData(programs);
       } catch (error) {
@@ -156,6 +160,11 @@ const ProgramPage = () => {
 
     fetchData();
   }, [type, token]);
+
+  const extractImageUrl = (programActivity) => {
+    const imgData = programActivity?.img_url?.data;
+    return imgData ? `http://localhost:1337${imgData[0]?.attributes?.url}` : null;
+  };
 
   return (
     <div className="max-w-full mx-auto my-8 p-4">
@@ -182,20 +191,30 @@ const ProgramPage = () => {
         </div>
       </div>
       <div className="flex justify-center items-center mb-14">
-        <h1 className="font-bold text-2xl md:text-4xl">Our Programs</h1>
+        <h1 className="font-bold text-3xl md:text-4xl">Our Programs</h1>
       </div>
-      <div className='text-4xl ml-20 font-bold mb-10'>Resident:</div>
+
+      <div className="md:ml-20 text-2xl mb-8 font-semibold ml-4">
+        Resident:
+      </div>
+
       <div className="overflow-x-auto flex item-center">
-        <table className="w-[90%] ml-20 bg-white border border-gray-300">
+        <table className="w-[90%] ml-4 md:ml-20 bg-white border border-gray-300">
           <tbody>
-            {data.map((program) => (
-              <ProgramBox
-                key={program.id}
-                time={program.attributes.activity.activity_time} 
-                image={program.attributes.activity?.program_activity?.img_url}
-                title={program.attributes.activity.name}
-              />
-            ))}
+            {data.map((program) =>
+              program.attributes.activity.map((activity) => {
+                const imageUrl = extractImageUrl(activity.program_activity?.data?.attributes);
+
+                return (
+                  <ProgramBox
+                    key={activity.id}
+                    time={activity.activity_time}
+                    image={imageUrl}
+                    title={activity.program_activity?.data?.attributes?.program_activity_name}
+                  />
+                );
+              })
+            )}
           </tbody>
         </table>
       </div>
@@ -204,5 +223,4 @@ const ProgramPage = () => {
 };
 
 export default ProgramPage;
-
 
