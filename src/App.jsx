@@ -24,7 +24,7 @@ function App() {
       <Route element={<AppLayout />}>
         {/* Admin: Can access all pages */}
         <Route path="/" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><Residents /></PrivateRoute>} />
-        <Route path="/residentinfo" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><ResidentInfo/></PrivateRoute>}/>
+        <Route path="/residentinfo/:id" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><ResidentInfo/></PrivateRoute>}/>
         <Route path="/program" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><Program /></PrivateRoute>} />
         <Route path="/assesment" element={<PrivateRoute allowedRoles={['Authenticated', 'Public']}><Assesment /></PrivateRoute>} />
         <Route path="/reporting" element={<PrivateRoute allowedRoles={['Authenticated']}><Reporting /></PrivateRoute>} />
