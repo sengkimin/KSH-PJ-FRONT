@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/auth/LoginPage";
 import AppLayout from "./components/AppLayout";
 import Residents from "./pages/Residents/ResidentPage";
-import ResidentBoxInfo from "./components/ResidentBoxInfo";
+// import ResidentBoxInfo from "./components/ResidentBoxInfo";
 import Program from "./pages/Program/ProgramPage";
 import Assesment from "./pages/Assesment/AssesmentPage";
 import Reporting from "./pages/Reporting/ReportingPage";
