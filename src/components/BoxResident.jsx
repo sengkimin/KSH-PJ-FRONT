@@ -19,7 +19,7 @@ function BoxResident({ image, name, age ,id}) {
       </div>
      
     <div className="flex space-x-4">
-    <Link to={/residentinfo/${id}}>
+    <Link to={`/residentinfo/${id}`}>
   <button className="text-[16px] bg-gray-300 text-black px-2 md:px-8 py-1 rounded hover:bg-gray-400 flex items-center space-x-2">
     <FaEye className="h-5 w-5 text-black" />
     <p className="hidden sm:block">View</p>

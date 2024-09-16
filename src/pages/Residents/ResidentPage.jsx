@@ -76,7 +76,7 @@ const ResidentList = () => {
               })
             )
           ) : (
-            <div>No residents found for this level.</div>
+            <div>Loading.....</div>
           )}
         </div>
       </div>
