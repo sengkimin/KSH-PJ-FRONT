@@ -25,7 +25,7 @@ const AppLayout = () => {
 
   return (
     <PrivateRoute>
-      <div className="relative bg-gray-100 h-full flex">
+      <div className="relative min-h-screen flex bg-gray-100">
         <div
           className={`fixed inset-y-0 left-0 md:w-80 bg-[#F0E7D4] sm:w-64 text-white transform transition-transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"

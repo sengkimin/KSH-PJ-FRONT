@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import ScrollTable from '../../components/ScrollTable';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Reporting = () => {
   const [level, setLevel] = useState('');
   const [type, setType] = useState('');
   const [resident, setResident] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  const data = [
-    { day: 'Monday', image: 'https://via.placeholder.com/150', activity: 'Morning Yoga' },
-    { day: 'Tuesday', image: 'https://via.placeholder.com/150', activity: 'Breakfast' },
-    { day: 'Wednesday', image: 'https://via.placeholder.com/150', activity: 'Meditation' },
-    { day: 'Thursday', image: 'https://via.placeholder.com/150', activity: 'Lunch' },
-    // Add more data as needed
-  ];
+  const handleDateChange = (date) => {
+    setSelectedDate(date);}
+
 
   return (
     <div className="w-[92%] mx-auto">
@@ -47,25 +46,43 @@ const Reporting = () => {
             id="type"
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="p-2 border border-stone-600 rounded-md outline-none mt-3 h-9 w-20 md:w-28"
+            className="p-2 border border-stone-600 rounded-md outline-none mt-2 h-10 w-20 md:w-36"
           >
-            <option value="">Type</option>
+            <option value="">Program Type</option>
             <option value="general">General Hygiene</option>
             <option value="personal">Personal Hygiene</option>
-            <option value="factory">Factory</option>
-            <option value="kitchen">Kitchen</option>
+            <option value="factory">Living Routine</option>
           </select>
+  
+    
+
+
+
+          <div className="space-x-4 ">
+        <DatePicker
+   
+          selected={selectedDate}
+          onChange={handleDateChange}
+          dateFormat="MM/dd/yyyy"
+          className="p-2 border border-stone-600 rounded-md outline-none w-32 h-9 mt-2 "
+        />
+
+
+
+
           <select
             id="resident"
             value={resident}
             onChange={(e) => setResident(e.target.value)}
             className="p-2 border border-stone-600 rounded-md outline-none mt-3 h-9 w-20 md:w-28"
           >
-            <option value="">Resident</option>
-            <option value="oldStudent">Old Student</option>
-            <option value="newStudent">New Student</option>
+            <option value="">Year</option>
+            <option value="oldStudent">2024</option>
+            <option value="newStudent">2025</option>
           </select>
-        </div>
+          </div>
+          </div>
+  
 
       <div className="mt-20">
         <ScrollTable date="7:00 AM" day="Monday" activity="Clean the leaf" />
@@ -77,4 +94,7 @@ const Reporting = () => {
   );
 };
 
+
 export default Reporting;
+// 
+
