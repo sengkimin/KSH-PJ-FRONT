@@ -8,12 +8,13 @@ import Program from "./pages/Program/ProgramPage";
 import Assesment from "./pages/Assesment/AssesmentPage";
 import Reporting from "./pages/Reporting/ReportingPage";
 import Medical from "./pages/Medical/MedicalPage";
+import MedicalInfo from "./pages/Medical/MedicalInfo";
 
 
 import NotFoundPage from "./pages/NotFoundPage"; 
 import Activities from "./pages/Activities/ActivitiesPage";
 
-function App() {
+function App() { 
   return (
     <Routes>
       <Route path="*" element={<NotFoundPage />} />
@@ -21,6 +22,7 @@ function App() {
       <Route element={<AppLayout />}>
     
         <Route path="/medical" element={<Medical/>}/>
+        <Route path="/medical/:id" element={<MedicalInfo/>}/>
         <Route path="/" element={<Residents />} />
         <Route path="/program" element={<Program />} />
         <Route path="/assesment" element={<Assesment />} />
