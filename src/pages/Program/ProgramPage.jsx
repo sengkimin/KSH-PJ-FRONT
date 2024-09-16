@@ -165,7 +165,7 @@ const ProgramPage = () => {
     const imgData = programActivity?.img_url?.data;
     return imgData ? `http://localhost:1337${imgData[0]?.attributes?.url}` : null;
   };
-
+console.log(data);
   return (
     <div className="max-w-full mx-auto my-8 p-4">
       <div className="flex flex-row justify-between items-center mb-4">
@@ -213,6 +213,7 @@ const ProgramPage = () => {
                 return (
                   <ProgramBox
                     key={activity.id}
+                    level={program.attributes.curriculum.data.id}
                     time={activity.activity_time.substring(0, 5)}
                     image={imageUrl}
                     title={activity.program_activity?.data?.attributes?.program_activity_name}

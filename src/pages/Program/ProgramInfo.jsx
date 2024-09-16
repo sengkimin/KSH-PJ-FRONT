@@ -1,10 +1,39 @@
-import React from 'react';
-import PromgramInfoBox from '../../components/ProgramInfoBox';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import ProgramInfoBox from "../../components/ProgramInfoBox";
+import { Link, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const TaskPage = () => {
+  const location = useLocation();
+  const { image } = location.state || {};
+  const { level, title } = useParams();
+  const [selectedOption, setSelectedOption] = useState("today");
+  const [customDate, setCustomDate] = useState("");
+  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+  const selectedDate = selectedOption === "today" ? today : customDate;
+  const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident]=true&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
+
+  // Log the initial value of "Today" when the component first renders
+  useEffect(() => {
+    console.log(`Initial load - Today's date: ${today}`);
+  }, []); // Empty dependency array means this will only run once when the component mounts
+
   const handleSave = () => {
-    console.log('Save button clicked');
+    // const selectedDate = selectedOption === 'today' ? today : customDate;
+    // console.log(`Save button clicked`);
+    // console.log(`Selected Date: ${selectedDate}`);
+  };
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    if (e.target.value === "today") {
+      console.log(`Today's date selected: ${today}`);
+    }
+  };
+
+  const handleDateChange = (e) => {
+    setCustomDate(e.target.value);
+    console.log(`Custom date selected: ${e.target.value}`);
   };
 
   return (
@@ -12,46 +41,64 @@ const TaskPage = () => {
       <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
         <div className="w-[95%] flex flex-row justify-between items-center mb-6">
           <Link to="/program">
-            <button className="bg-gray-300 text-black py-2 px-6 sm:px-8 rounded mb-4 mt-2  sm:mb-0">
+            <button className="bg-gray-300 text-black py-2 px-6 sm:px-8 rounded mb-4 mt-2 sm:mb-0">
               Back
             </button>
           </Link>
-          <select className="bg-white border border-gray-300 py-2 px-4  rounded">
-            <option>Date picker</option>
-          </select>
+
+          {/* Date Picker */}
+          <div>
+            <select
+              className="bg-white border border-gray-300 py-2 px-4 rounded"
+              value={selectedOption}
+              onChange={handleOptionChange}
+            >
+              <option value="today">Today</option>
+              <option value="custom">Custom</option>
+            </select>
+
+            {/* Show date input when "Custom" is selected */}
+            {selectedOption === "custom" && (
+              <input
+                type="date"
+                className="bg-white border border-gray-300 py-2 px-4 rounded mt-2"
+                value={customDate}
+                onChange={handleDateChange}
+              />
+            )}
+          </div>
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-bold text-green-700 mb-4 text-center">
-          Clean the leaf
+          {title}
         </h1>
 
-        <img
-          src="/ger.webp"
-          alt="Clean the leaf"
-          className="w-1/3 md:w-1/4 h-auto object-cover rounded-lg mb-2"
-        />
+          <img
+            src={image}
+            alt="Clean the leaf"
+            className="w-1/3 md:w-1/4 h-auto object-cover rounded-lg mb-2"
+          />
 
         <div className="w-[95%] overflow-x-auto">
           <table className="w-full mt-10 bg-white rounded-lg">
             <tbody>
-              <PromgramInfoBox name="Kim In" score="100" icon="✅"/>
-              <PromgramInfoBox name="Kim In" score="100" icon="✅"/>
-              <PromgramInfoBox name="Kim In" score="100" icon="✅"/>
-              <PromgramInfoBox name="Kim In" score="100" icon="✅"/>
-              <PromgramInfoBox name="Kim In" score="100" icon="✅"/>
-              <PromgramInfoBox name="Kim In" score="100" icon="✅"/>
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
             </tbody>
           </table>
         </div>
-
-     
       </div>
+
       <button
-          onClick={handleSave}
-          className=" bg-green-700 text-white md:text-xl md:mt-6 py-2 px-4 ml-8 md:px-14 md:ml-14 sm:px-10 rounded"
-        >
-          Save
-        </button>
+        onClick={handleSave}
+        className="bg-green-700 text-white md:text-xl md:mt-6 py-2 px-4 ml-8 md:px-14 md:ml-14 sm:px-10 rounded"
+      >
+        Save
+      </button>
     </>
   );
 };

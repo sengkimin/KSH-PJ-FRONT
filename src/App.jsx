@@ -27,7 +27,7 @@ function App() {
         <Route path="/" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><Residents /></PrivateRoute>} />
         <Route path="/residentinfo/:id" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><ResidentInfo/></PrivateRoute>}/>
         <Route path="/program" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><Program /></PrivateRoute>} />
-        <Route path="/program/:id" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><ProgramInfo /></PrivateRoute>} />
+        <Route path="/program/:level/:title" element={<PrivateRoute allowedRoles={['Authenticated', 'Public', 'team-leader']}><ProgramInfo /></PrivateRoute>} />
 
         <Route path="/assesment" element={<PrivateRoute allowedRoles={['Authenticated', 'Public']}><Assesment /></PrivateRoute>} />
         <Route path="/reporting" element={<PrivateRoute allowedRoles={['Authenticated']}><Reporting /></PrivateRoute>} />
