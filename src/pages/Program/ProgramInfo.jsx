@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import ProgramInfoBox from "../../components/ProgramInfoBox";
 import { Link, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const TaskPage = () => {
+  const [programinfo, setprograminfo] = useState([]);
+  const token = localStorage.getItem('jwtToken');
   const location = useLocation();
   const { image } = location.state || {};
   const { level, title } = useParams();
@@ -13,10 +16,30 @@ const TaskPage = () => {
   const selectedDate = selectedOption === "today" ? today : customDate;
   const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident]=true&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
 
-  // Log the initial value of "Today" when the component first renders
   useEffect(() => {
-    console.log(`Initial load - Today's date: ${today}`);
-  }, []); // Empty dependency array means this will only run once when the component mounts
+    const fetchProgramInfo = async () => {
+      if (!token || !title || !level) {
+        console.error('Missing required parameters');
+        return;
+      }
+
+      try {
+        const response = await axios.get(URL, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        console.log('API Response:', response);
+        const data = response.data?.data || [];
+        console.log('Formatted Data:', data);
+        setprograminfo(data);
+      } catch (error) {
+        console.error('Error fetching the residents data:', error);
+      }
+    };
+
+    fetchProgramInfo();
+  }, [URL, token, title, level]);
 
   const handleSave = () => {
     // const selectedDate = selectedOption === 'today' ? today : customDate;
@@ -82,12 +105,15 @@ const TaskPage = () => {
         <div className="w-[95%] overflow-x-auto">
           <table className="w-full mt-10 bg-white rounded-lg">
             <tbody>
+            {programinfo.map((program) =>
+            <ProgramInfoBox name={program.attributes.resident.data.attributes.fullname_english} score="100" icon="✅" />
+            )}
+{/*               
               <ProgramInfoBox name="Kim In" score="100" icon="✅" />
               <ProgramInfoBox name="Kim In" score="100" icon="✅" />
               <ProgramInfoBox name="Kim In" score="100" icon="✅" />
               <ProgramInfoBox name="Kim In" score="100" icon="✅" />
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
+              <ProgramInfoBox name="Kim In" score="100" icon="✅" /> */}
             </tbody>
           </table>
         </div>
