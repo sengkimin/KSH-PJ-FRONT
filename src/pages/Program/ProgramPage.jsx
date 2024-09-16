@@ -195,7 +195,12 @@ const ProgramPage = () => {
       </div>
 
       <div className="md:ml-20 text-2xl mb-8 font-semibold ml-4">
-        Resident:
+        Resident:{" "}
+        {data.map((program) => (
+          <span key={program.id}>
+            {program.attributes.residents.data.length}
+          </span>
+        ))}
       </div>
 
       <div className="overflow-x-auto flex item-center">
