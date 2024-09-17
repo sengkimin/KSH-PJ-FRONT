@@ -1,15 +1,29 @@
 import React, { useState } from 'react';
 
-const PromgramInfoBox = ({ name, score, icon }) => {
+const ProgramInfoBox = ({ name, initialPercentage, initialComment, onPercentageChange, onCommentChange }) => {
+  // Function to get the icon based on percentage
+  const getIconFromPercentage = (percentage) => {
+    switch (percentage) {
+      case '100%':
+        return '✅';
+      case '0%':
+        return '❌';
+      case '50%':
+        return '🔄';
+      default:
+        return '❓'; // Default icon
+    }
+  };
+
   const [selectedOption, setSelectedOption] = useState('select');
-  const [percentage, setPercentage] = useState('0%');
-  const [displayedIcon, setDisplayedIcon] = useState(icon);
+  const [percentage, setPercentage] = useState(initialPercentage || '0%');
+  const [displayedIcon, setDisplayedIcon] = useState(getIconFromPercentage(initialPercentage || '0%'));
 
   const handleChange = (event) => {
     const value = event.target.value;
 
     let newPercentage = '0%';
-    let newIcon = icon;
+    let newIcon = getIconFromPercentage(newPercentage);
 
     switch (value) {
       case 'correct':
@@ -26,12 +40,22 @@ const PromgramInfoBox = ({ name, score, icon }) => {
         break;
       default:
         newPercentage = '0%';
-        newIcon = icon;
+        newIcon = getIconFromPercentage(newPercentage);
     }
 
     setPercentage(newPercentage);
     setDisplayedIcon(newIcon);
     setSelectedOption('select');
+    if (onPercentageChange) {
+      onPercentageChange(newPercentage);
+    }
+  };
+
+  const handleCommentChange = (event) => {
+    const newComment = event.target.value;
+    if (onCommentChange) {
+      onCommentChange(newComment);
+    }
   };
 
   return (
@@ -66,15 +90,11 @@ const PromgramInfoBox = ({ name, score, icon }) => {
           type="text"
           placeholder="Comment :"
           className="w-full py-2 md:py-3 lg:py-4 px-2 text-sm sm:text-base md:text-lg lg:text-xl"
+          onChange={handleCommentChange}
         />
       </td>
     </tr>
   );
 };
 
-export default PromgramInfoBox;
-
-
-
-
-
+export default ProgramInfoBox;
