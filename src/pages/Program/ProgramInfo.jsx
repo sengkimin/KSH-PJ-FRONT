@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const TaskPage = () => {
-  const [programinfo, setProgramInfo] = useState([]);
+  const [programInfo, setProgramInfo] = useState([]);
   const token = localStorage.getItem('jwtToken');
   const location = useLocation();
   const { image } = location.state || {};
@@ -41,14 +41,33 @@ const TaskPage = () => {
     fetchProgramInfo();
   }, [URL, token, title, level]);
 
-  const handleSave = () => {
-    programinfo.forEach(program => {
+  const handleSave = async () => {
+    for (const program of programInfo) {
       const id = program.id;
-      const percentage = program.percentage;
+      const value = program.value; // Use value instead of percentage
       const comment = program.comment;
-      console.log(`Program ID: ${id}, Percentage: ${percentage}, Comment: ${comment}`);
-    });
-    // Perform the API call to save the programInfo data, including percentage and comment
+
+      try {
+        const response = await axios.put(
+          `http://localhost:1337/api/resident-checklists/${id}`,
+          {
+            data: {
+              score_point: value === '100%' ? 1 : (value === '50%' ? 3 : 2),
+              description: comment || 'No comment'
+            }
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          }
+        );
+        console.log('Update Response:', response.data);
+      } catch (error) {
+        console.error('Error updating the checklist:', error);
+      }
+    }
   };
 
   const handleOptionChange = (e) => {
@@ -63,10 +82,10 @@ const TaskPage = () => {
     console.log(`Custom date selected: ${e.target.value}`);
   };
 
-  const handlePercentageChange = (programId, newPercentage) => {
+  const handleValueChange = (programId, newValue) => {
     setProgramInfo(prevInfo => prevInfo.map(program =>
       program.id === programId
-        ? { ...program, percentage: newPercentage }
+        ? { ...program, value: newValue }
         : program
     ));
   };
@@ -123,15 +142,17 @@ const TaskPage = () => {
         <div className="w-[95%] overflow-x-auto">
           <table className="w-full mt-10 bg-white rounded-lg">
             <tbody>
-              {programinfo.map((program) => (
-                <ProgramInfoBox
-                  key={program.id}
-                  name={program.attributes.resident.data.attributes.fullname_english}
-                  initialPercentage={program.percentage || '0%'}
-                  initialComment={program.comment || ''}
-                  onPercentageChange={(newPercentage) => handlePercentageChange(program.id, newPercentage)}
-                  onCommentChange={(newComment) => handleCommentChange(program.id, newComment)}
-                />
+              {programInfo.map((program) => (
+                program.attributes.score_point.data === null ? (
+                  <ProgramInfoBox
+                    key={program.id}
+                    name={program.attributes.resident.data.attributes.fullname_english}
+                    initialValue={program.value || '0%'}
+                    initialComment={program.comment || ''}
+                    onValueChange={(newValue) => handleValueChange(program.id, newValue)}
+                    onCommentChange={(newComment) => handleCommentChange(program.id, newComment)}
+                  />
+                ) : null // Render nothing if score_point.data is not null
               ))}
             </tbody>
           </table>

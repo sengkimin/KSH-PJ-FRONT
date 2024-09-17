@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-const ProgramInfoBox = ({ name, initialPercentage, initialComment, onPercentageChange, onCommentChange }) => {
-  // Function to get the icon based on percentage
-  const getIconFromPercentage = (percentage) => {
-    switch (percentage) {
+const ProgramInfoBox = ({ name, initialValue, initialComment, onValueChange, onCommentChange }) => {
+  // Function to get the icon based on value
+  const getIconFromValue = (value) => {
+    switch (value) {
       case '100%':
         return '✅';
       case '0%':
@@ -16,38 +16,38 @@ const ProgramInfoBox = ({ name, initialPercentage, initialComment, onPercentageC
   };
 
   const [selectedOption, setSelectedOption] = useState('select');
-  const [percentage, setPercentage] = useState(initialPercentage || '0%');
-  const [displayedIcon, setDisplayedIcon] = useState(getIconFromPercentage(initialPercentage || '0%'));
+  const [value, setValue] = useState(initialValue || '0%');
+  const [displayedIcon, setDisplayedIcon] = useState(getIconFromValue(initialValue || '0%'));
 
   const handleChange = (event) => {
-    const value = event.target.value;
+    const selectedValue = event.target.value;
 
-    let newPercentage = '0%';
-    let newIcon = getIconFromPercentage(newPercentage);
+    let newValue = '0%';
+    let newIcon = getIconFromValue(newValue);
 
-    switch (value) {
-      case 'correct':
-        newPercentage = '100%';
+    switch (selectedValue) {
+      case '1':
+        newValue = '100%';
         newIcon = '✅';
         break;
-      case 'incorrect':
-        newPercentage = '0%';
+      case '2':
+        newValue = '0%';
         newIcon = '❌';
         break;
-      case 'equal':
-        newPercentage = '50%';
+      case '3':
+        newValue = '50%';
         newIcon = '🔄';
         break;
       default:
-        newPercentage = '0%';
-        newIcon = getIconFromPercentage(newPercentage);
+        newValue = '0%';
+        newIcon = getIconFromValue(newValue);
     }
 
-    setPercentage(newPercentage);
+    setValue(newValue);
     setDisplayedIcon(newIcon);
     setSelectedOption('select');
-    if (onPercentageChange) {
-      onPercentageChange(newPercentage);
+    if (onValueChange) {
+      onValueChange(newValue);
     }
   };
 
@@ -61,27 +61,22 @@ const ProgramInfoBox = ({ name, initialPercentage, initialComment, onPercentageC
   return (
     <tr>
       <td className="py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">{name}</td>
-      <td className="py-4 md:py-8 px-2  md:px-6 border">
+      <td className="py-4 md:py-8 px-2 md:px-6 border">
         <div className="flex items-center">
           <select
             value={selectedOption}
             onChange={handleChange}
-            className="w-full bg-white border-none border-gray-300 md:ml-16 text-green-600 rounded-lg appearance-none
-                       text-base sm:text-xl md:text-3xl lg:text-5xl
-                       py-2 sm:py-2 md:py-3
-                       px-2"
-            style={{
-              backgroundImage: "none",
-            }}
+            className="w-full bg-white border-none border-gray-300 md:ml-16 text-green-600 rounded-lg appearance-none text-base sm:text-xl md:text-3xl lg:text-5xl py-2 sm:py-2 md:py-3 px-2"
+            style={{ backgroundImage: "none" }}
           >
             <option value="select" className="text-green-600">🔽</option>
-            <option value="correct">✅</option>
-            <option value="incorrect">❌</option>
-            <option value="equal">🔄</option>
+            <option value="1">✅</option>
+            <option value="2">❌</option>
+            <option value="3">🔄</option>
           </select>
           <div className="flex flex-col items-center ">
             <span className="text-base sm:text-lg md:text-3xl md:mr-10">{displayedIcon}</span>
-            <div className="text-gray-600 text-xs sm:text-sm md:mr-10 md:text-xl">{percentage}</div>
+            <div className="text-gray-600 text-xs sm:text-sm md:mr-10 md:text-xl">{value}</div>
           </div>
         </div>
       </td>
