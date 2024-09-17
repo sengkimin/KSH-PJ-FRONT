@@ -5,14 +5,14 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const TaskPage = () => {
-  const [programinfo, setprograminfo] = useState([]);
+  const [programinfo, setProgramInfo] = useState([]);
   const token = localStorage.getItem('jwtToken');
   const location = useLocation();
   const { image } = location.state || {};
   const { level, title } = useParams();
   const [selectedOption, setSelectedOption] = useState("today");
   const [customDate, setCustomDate] = useState("");
-  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split("T")[0];
   const selectedDate = selectedOption === "today" ? today : customDate;
   const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident]=true&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
 
@@ -32,7 +32,7 @@ const TaskPage = () => {
         console.log('API Response:', response);
         const data = response.data?.data || [];
         console.log('Formatted Data:', data);
-        setprograminfo(data);
+        setProgramInfo(data);
       } catch (error) {
         console.error('Error fetching the residents data:', error);
       }
@@ -42,9 +42,13 @@ const TaskPage = () => {
   }, [URL, token, title, level]);
 
   const handleSave = () => {
-    // const selectedDate = selectedOption === 'today' ? today : customDate;
-    // console.log(`Save button clicked`);
-    // console.log(`Selected Date: ${selectedDate}`);
+    programinfo.forEach(program => {
+      const id = program.id;
+      const percentage = program.percentage;
+      const comment = program.comment;
+      console.log(`Program ID: ${id}, Percentage: ${percentage}, Comment: ${comment}`);
+    });
+    // Perform the API call to save the programInfo data, including percentage and comment
   };
 
   const handleOptionChange = (e) => {
@@ -59,6 +63,22 @@ const TaskPage = () => {
     console.log(`Custom date selected: ${e.target.value}`);
   };
 
+  const handlePercentageChange = (programId, newPercentage) => {
+    setProgramInfo(prevInfo => prevInfo.map(program =>
+      program.id === programId
+        ? { ...program, percentage: newPercentage }
+        : program
+    ));
+  };
+
+  const handleCommentChange = (programId, newComment) => {
+    setProgramInfo(prevInfo => prevInfo.map(program =>
+      program.id === programId
+        ? { ...program, comment: newComment }
+        : program
+    ));
+  };
+
   return (
     <>
       <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
@@ -69,7 +89,6 @@ const TaskPage = () => {
             </button>
           </Link>
 
-          {/* Date Picker */}
           <div>
             <select
               className="bg-white border border-gray-300 py-2 px-4 rounded"
@@ -80,7 +99,6 @@ const TaskPage = () => {
               <option value="custom">Custom</option>
             </select>
 
-            {/* Show date input when "Custom" is selected */}
             {selectedOption === "custom" && (
               <input
                 type="date"
@@ -96,24 +114,25 @@ const TaskPage = () => {
           {title}
         </h1>
 
-          <img
-            src={image}
-            alt="Clean the leaf"
-            className="w-1/3 md:w-1/4 h-auto object-cover rounded-lg mb-2"
-          />
+        <img
+          src={image}
+          alt="Clean the leaf"
+          className="w-1/3 md:w-1/4 h-auto object-cover rounded-lg mb-2"
+        />
 
         <div className="w-[95%] overflow-x-auto">
           <table className="w-full mt-10 bg-white rounded-lg">
             <tbody>
-            {programinfo.map((program) =>
-            <ProgramInfoBox name={program.attributes.resident.data.attributes.fullname_english} score="100" icon="✅" />
-            )}
-{/*               
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" />
-              <ProgramInfoBox name="Kim In" score="100" icon="✅" /> */}
+              {programinfo.map((program) => (
+                <ProgramInfoBox
+                  key={program.id}
+                  name={program.attributes.resident.data.attributes.fullname_english}
+                  initialPercentage={program.percentage || '0%'}
+                  initialComment={program.comment || ''}
+                  onPercentageChange={(newPercentage) => handlePercentageChange(program.id, newPercentage)}
+                  onCommentChange={(newComment) => handleCommentChange(program.id, newComment)}
+                />
+              ))}
             </tbody>
           </table>
         </div>
