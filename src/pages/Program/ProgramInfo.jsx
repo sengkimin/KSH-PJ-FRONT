@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import ProgramInfoBox from "../../components/ProgramInfoBox";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskPage = () => {
   const [programInfo, setProgramInfo] = useState([]);
-  const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem("jwtToken");
   const location = useLocation();
   const { image } = location.state || {};
   const { level, title } = useParams();
@@ -16,25 +18,24 @@ const TaskPage = () => {
   const selectedDate = selectedOption === "today" ? today : customDate;
   const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident]=true&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
 
+  const navigate = useNavigate(); // Add this line
+
   useEffect(() => {
     const fetchProgramInfo = async () => {
       if (!token || !title || !level) {
-        console.error('Missing required parameters');
+        console.error("Missing required parameters");
         return;
       }
 
       try {
         const response = await axios.get(URL, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
-        console.log('API Response:', response);
-        const data = response.data?.data || [];
-        console.log('Formatted Data:', data);
-        setProgramInfo(data);
+        setProgramInfo(response.data?.data || []);
       } catch (error) {
-        console.error('Error fetching the residents data:', error);
+        console.error("Error fetching the residents data:", error);
       }
     };
 
@@ -42,31 +43,42 @@ const TaskPage = () => {
   }, [URL, token, title, level]);
 
   const handleSave = async () => {
-    for (const program of programInfo) {
-      const id = program.id;
-      const value = program.value; // Use value instead of percentage
-      const comment = program.comment;
+    try {
+      for (const program of programInfo) {
+        const id = program.id;
+        const value = program.value; // Use value instead of percentage
+        const comment = program.comment;
 
-      try {
         const response = await axios.put(
           `http://localhost:1337/api/resident-checklists/${id}`,
           {
             data: {
-              score_point: value === '100%' ? 1 : (value === '50%' ? 3 : 2),
-              description: comment || 'No comment'
-            }
+              score_point: value === "100%" ? 1 : value === "50%" ? 3 : 2,
+              description: comment || "No comment",
+            },
           },
           {
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            }
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
-        console.log('Update Response:', response.data);
-      } catch (error) {
-        console.error('Error updating the checklist:', error);
+        if (response.status === 200) {
+          toast.success("Data saved successfully!", {
+            position: "top-center",
+            autoClose: 5000,
+          });
+        }
       }
+      // Navigate to '/program' after saving
+      navigate('/program');
+    } catch (error) {
+      toast.error("Failed to save the data. Please try again.", {
+        position: "top-center",
+        autoClose: 5000,
+      });
+      console.error("Error updating the checklist:", error);
     }
   };
 
@@ -83,20 +95,23 @@ const TaskPage = () => {
   };
 
   const handleValueChange = (programId, newValue) => {
-    setProgramInfo(prevInfo => prevInfo.map(program =>
-      program.id === programId
-        ? { ...program, value: newValue }
-        : program
-    ));
+    setProgramInfo((prevInfo) =>
+      prevInfo.map((program) =>
+        program.id === programId ? { ...program, value: newValue } : program
+      )
+    );
   };
 
   const handleCommentChange = (programId, newComment) => {
-    setProgramInfo(prevInfo => prevInfo.map(program =>
-      program.id === programId
-        ? { ...program, comment: newComment }
-        : program
-    ));
+    setProgramInfo((prevInfo) =>
+      prevInfo.map((program) =>
+        program.id === programId ? { ...program, comment: newComment } : program
+      )
+    );
   };
+
+  // Check if all programs are updated
+  const allUpdated = programInfo.every(program => program.attributes.score_point.data !== null);
 
   return (
     <>
@@ -142,29 +157,56 @@ const TaskPage = () => {
         <div className="w-[95%] overflow-x-auto">
           <table className="w-full mt-10 bg-white rounded-lg">
             <tbody>
-              {programInfo.map((program) => (
-                program.attributes.score_point.data === null ? (
-                  <ProgramInfoBox
-                    key={program.id}
-                    name={program.attributes.resident.data.attributes.fullname_english}
-                    initialValue={program.value || '0%'}
-                    initialComment={program.comment || ''}
-                    onValueChange={(newValue) => handleValueChange(program.id, newValue)}
-                    onCommentChange={(newComment) => handleCommentChange(program.id, newComment)}
-                  />
-                ) : null // Render nothing if score_point.data is not null
-              ))}
+              {allUpdated ? (
+                <tr>
+                  <td className="text-center text-green-500 py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">
+                    The student already updated
+                  </td>
+                </tr>
+              ) : (
+                programInfo.map((program) =>
+                  program.attributes.score_point.data === null ? (
+                    <ProgramInfoBox
+                      key={program.id}
+                      name={
+                        program.attributes.resident.data.attributes
+                          .fullname_english
+                      }
+                      initialValue={program.value || "0%"}
+                      initialComment={program.comment || ""}
+                      onValueChange={(newValue) =>
+                        handleValueChange(program.id, newValue)
+                      }
+                      onCommentChange={(newComment) =>
+                        handleCommentChange(program.id, newComment)
+                      }
+                    />
+                  ) : null
+                )
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
-      <button
-        onClick={handleSave}
-        className="bg-green-700 text-white md:text-xl md:mt-6 py-2 px-4 ml-8 md:px-14 md:ml-14 sm:px-10 rounded"
-      >
-        Save
-      </button>
+      {!allUpdated && (
+        <button
+          onClick={handleSave}
+          className="bg-green-700 text-white md:text-xl md:mt-6 py-2 px-4 ml-8 md:px-14 md:ml-14 sm:px-10 rounded cursor-pointer"
+        >
+          Save
+        </button>
+      )}
+
+      {/* ToastContainer to display toast notifications */}
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
     </>
   );
 };
