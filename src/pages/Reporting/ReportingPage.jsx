@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
 import ScrollTable from '../../components/ScrollTable';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Reporting = () => {
   const [level, setLevel] = useState('');
   const [type, setType] = useState('');
   const [resident, setResident] = useState('');
-  const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);}
 
 
   return (
     <div className="w-[92%] mx-auto">
       <div className="flex justify-between items-center mb-8">
-        <div className="font-bold text-3xl md:text-4xl">Report</div>
+        <div className="font-bold text-3xl md:text-4xl">Reporting</div>
      
       
       <div className="flex justify-between items-center mb-4">
@@ -59,13 +55,7 @@ const Reporting = () => {
 
 
           <div className="space-x-4 ">
-        <DatePicker
-   
-          selected={selectedDate}
-          onChange={handleDateChange}
-          dateFormat="MM/dd/yyyy"
-          className="p-2 border border-stone-600 rounded-md outline-none w-32 h-9 mt-2 "
-        />
+    
 
 
 
@@ -82,10 +72,14 @@ const Reporting = () => {
           </select>
           </div>
           </div>
+          <div className='text-green-700 text-center text-xl md:text-3xl font-bold mt-10'>
+          Daily Schedule Follow-Up
+          </div>
+     
   
 
-      <div className="mt-20">
-        <ScrollTable date="7:00 AM" day="Monday" activity="Clean the leaf" />
+      <div className="mt-10">
+        <ScrollTable level='Level 1' type='General Hyien' resident='alya' image='/resident.jpg' actname='Clean the Leaf' actdate='18/09/2024' score='100/100' com='Very good' slead='User A' scom='Normal' pwdby='Yes' pwdcom='Nice' />
      
 
 
@@ -96,5 +90,5 @@ const Reporting = () => {
 
 
 export default Reporting;
-// 
+
 
