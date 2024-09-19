@@ -1,63 +1,82 @@
 import React, { useState } from 'react';
 
-const PromgramInfoBox = ({ name, score, icon }) => {
+const ProgramInfoBox = ({ name, initialValue, initialComment, onValueChange, onCommentChange }) => {
+  // Function to get the icon based on value
+  const getIconFromValue = (value) => {
+    switch (value) {
+      case '100%':
+        return '✅';
+      case '0%':
+        return '❌';
+      case '50%':
+        return '🔄';
+      default:
+        return '❓'; // Default icon
+    }
+  };
+
   const [selectedOption, setSelectedOption] = useState('select');
-  const [percentage, setPercentage] = useState('0%');
-  const [displayedIcon, setDisplayedIcon] = useState(icon);
+  const [value, setValue] = useState(initialValue || '0%');
+  const [displayedIcon, setDisplayedIcon] = useState(getIconFromValue(initialValue || '0%'));
 
   const handleChange = (event) => {
-    const value = event.target.value;
+    const selectedValue = event.target.value;
 
-    let newPercentage = '0%';
-    let newIcon = icon;
+    let newValue = '0%';
+    let newIcon = getIconFromValue(newValue);
 
-    switch (value) {
-      case 'correct':
-        newPercentage = '100%';
+    switch (selectedValue) {
+      case '1':
+        newValue = '100%';
         newIcon = '✅';
         break;
-      case 'incorrect':
-        newPercentage = '0%';
+      case '2':
+        newValue = '0%';
         newIcon = '❌';
         break;
-      case 'equal':
-        newPercentage = '50%';
+      case '3':
+        newValue = '50%';
         newIcon = '🔄';
         break;
       default:
-        newPercentage = '0%';
-        newIcon = icon;
+        newValue = '0%';
+        newIcon = getIconFromValue(newValue);
     }
 
-    setPercentage(newPercentage);
+    setValue(newValue);
     setDisplayedIcon(newIcon);
     setSelectedOption('select');
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
+  };
+
+  const handleCommentChange = (event) => {
+    const newComment = event.target.value;
+    if (onCommentChange) {
+      onCommentChange(newComment);
+    }
   };
 
   return (
     <tr>
       <td className="py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">{name}</td>
-      <td className="py-4 md:py-8 px-2  md:px-6 border">
+      <td className="py-4 md:py-8 px-2 md:px-6 border">
         <div className="flex items-center">
           <select
             value={selectedOption}
             onChange={handleChange}
-            className="w-full bg-white border-none border-gray-300 md:ml-16 text-green-600 rounded-lg appearance-none
-                       text-base sm:text-xl md:text-3xl lg:text-5xl
-                       py-2 sm:py-2 md:py-3
-                       px-2"
-            style={{
-              backgroundImage: "none",
-            }}
+            className="w-full bg-white border-none border-gray-300 md:ml-16 text-green-600 rounded-lg appearance-none text-base sm:text-xl md:text-3xl lg:text-5xl py-2 sm:py-2 md:py-3 px-2"
+            style={{ backgroundImage: "none" }}
           >
             <option value="select" className="text-green-600">🔽</option>
-            <option value="correct">✅</option>
-            <option value="incorrect">❌</option>
-            <option value="equal">🔄</option>
+            <option value="1">✅</option>
+            <option value="2">❌</option>
+            <option value="3">🔄</option>
           </select>
           <div className="flex flex-col items-center ">
             <span className="text-base sm:text-lg md:text-3xl md:mr-10">{displayedIcon}</span>
-            <div className="text-gray-600 text-xs sm:text-sm md:mr-10 md:text-xl">{percentage}</div>
+            <div className="text-gray-600 text-xs sm:text-sm md:mr-10 md:text-xl">{value}</div>
           </div>
         </div>
       </td>
@@ -66,15 +85,11 @@ const PromgramInfoBox = ({ name, score, icon }) => {
           type="text"
           placeholder="Comment :"
           className="w-full py-2 md:py-3 lg:py-4 px-2 text-sm sm:text-base md:text-lg lg:text-xl"
+          onChange={handleCommentChange}
         />
       </td>
     </tr>
   );
 };
 
-export default PromgramInfoBox;
-
-
-
-
-
+export default ProgramInfoBox;

@@ -125,10 +125,12 @@ import React, { useState, useEffect } from 'react';
 import ProgramBox from '../../components/ProgramBox';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import DropdownYearResident from '../../components/DropdownYearResident';
 
 const ProgramPage = () => {
   const [data, setData] = useState([]);
   const location = useLocation();
+  const [selectedYear, setSelectedYear] = useState(""); 
   const { type: initialType } = location.state || { type: '1' };
   const [type, setType] = useState(initialType); 
   const token = localStorage.getItem('jwtToken');
@@ -137,13 +139,13 @@ const ProgramPage = () => {
     const fetchData = async () => {
       if (!type) return;
 
-      const currentYear = new Date().getFullYear();
-      const lastDayOfYear = new Date(currentYear, 11, 31);
-      const day = lastDayOfYear.getDate().toString().padStart(2, '0');
-      const month = (lastDayOfYear.getMonth() + 1).toString().padStart(2, '0');
-      const year = lastDayOfYear.getFullYear();
+      // const currentYear = new Date().getFullYear();
+      // const lastDayOfYear = new Date(currentYear, 11, 31);
+      // const day = lastDayOfYear.getDate().toString().padStart(2, '0');
+      // const month = (lastDayOfYear.getMonth() + 1).toString().padStart(2, '0');
+      // const year = lastDayOfYear.getFullYear();
 
-      const url = `http://localhost:1337/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][end_date][$gte]=${year}-${month}-${day}`;
+      const url = `http://localhost:1337/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][curriculum_name][$eq]=${selectedYear}`;
 
       try {
         const response = await axios.get(url, {
@@ -159,7 +161,7 @@ const ProgramPage = () => {
     };
 
     fetchData();
-  }, [type, token]);
+  }, [type,selectedYear, token]);
 
   const extractImageUrl = (programActivity) => {
     const imgData = programActivity?.img_url?.data;
@@ -173,6 +175,7 @@ console.log(data);
           Back
         </button>
         <div className="flex items-center">
+          <DropdownYearResident setSelectedYear={setSelectedYear}/>
           <label className="block text-[16px] md:text-xl mr-6 font-bold" htmlFor="type">
             Level:
           </label>

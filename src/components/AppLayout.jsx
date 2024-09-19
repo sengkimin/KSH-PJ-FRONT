@@ -25,7 +25,7 @@ const AppLayout = () => {
 
   return (
     <PrivateRoute>
-      <div className="relative bg-gray-100 h-full flex">
+      <div className=" min-h-screen flex bg-gray-100">
         <div
           className={`fixed inset-y-0 left-0 md:w-80 bg-[#F0E7D4] sm:w-64 text-white transform transition-transform ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -102,7 +102,7 @@ const AppLayout = () => {
           </nav>
         </div>
 
-        <div className={`flex-1 flex flex-col ${isSidebarOpen ? "overflow-hidden" : ""}`}>
+        <div className={`flex-1 flex flex-col ${isSidebarOpen ? "overflow-hidden" : ""} relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden`}>
           <header className="flex items-center justify-between p-4 bg-white shadow-md">
             <div className="justify-center">
               <img
