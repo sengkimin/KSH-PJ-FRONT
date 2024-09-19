@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ProgramInfoBox from "../../components/ProgramInfoBox";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 const TaskPage = () => {
   const [programInfo, setProgramInfo] = useState([]);
@@ -16,10 +16,9 @@ const TaskPage = () => {
   const [customDate, setCustomDate] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const selectedDate = selectedOption === "today" ? today : customDate;
-  const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident]=true&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
+  // const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident]=true&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
 
-  const navigate = useNavigate(); // Add this line
-
+  const URL=`http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident][populate]=profile_img_url&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
   useEffect(() => {
     const fetchProgramInfo = async () => {
       if (!token || !title || !level) {
@@ -71,8 +70,6 @@ const TaskPage = () => {
           });
         }
       }
-      // Navigate to '/program' after saving
-      navigate('/program');
     } catch (error) {
       toast.error("Failed to save the data. Please try again.", {
         position: "top-center",
@@ -109,9 +106,6 @@ const TaskPage = () => {
       )
     );
   };
-
-  // Check if all programs are updated
-  const allUpdated = programInfo.every(program => program.attributes.score_point.data !== null);
 
   return (
     <>
@@ -157,46 +151,42 @@ const TaskPage = () => {
         <div className="w-[95%] overflow-x-auto">
           <table className="w-full mt-10 bg-white rounded-lg">
             <tbody>
-              {allUpdated ? (
-                <tr>
-                  <td className="text-center text-green-500 py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">
-                    The student already updated
-                  </td>
-                </tr>
-              ) : (
-                programInfo.map((program) =>
-                  program.attributes.score_point.data === null ? (
-                    <ProgramInfoBox
-                      key={program.id}
-                      name={
-                        program.attributes.resident.data.attributes
-                          .fullname_english
-                      }
-                      initialValue={program.value || "0%"}
-                      initialComment={program.comment || ""}
-                      onValueChange={(newValue) =>
-                        handleValueChange(program.id, newValue)
-                      }
-                      onCommentChange={(newComment) =>
-                        handleCommentChange(program.id, newComment)
-                      }
-                    />
-                  ) : null
-                )
-              )}
+              {programInfo.map((program) => (
+                <ProgramInfoBox
+                  key={program.id}
+                  name={
+                    program.attributes.resident.data.attributes.fullname_english
+                  }
+                  initialValue={
+                    program.attributes.score_point.data
+                      ? program.attributes.score_point.data.attributes
+                          .score_point + "%" || "0%"
+                      : program.value || "0%"
+                  }
+                  initialComment={
+                    program.attributes.score_point.data
+                      ? program.attributes.description || "No comment"
+                      : program.comment || ""
+                  }
+                  onValueChange={(newValue) =>
+                    handleValueChange(program.id, newValue)
+                  }
+                  onCommentChange={(newComment) =>
+                    handleCommentChange(program.id, newComment)
+                  }
+                />
+              ))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {!allUpdated && (
-        <button
-          onClick={handleSave}
-          className="bg-green-700 text-white md:text-xl md:mt-6 py-2 px-4 ml-8 md:px-14 md:ml-14 sm:px-10 rounded cursor-pointer"
-        >
-          Save
-        </button>
-      )}
+      <button
+        onClick={handleSave}
+        className="bg-green-700 text-white md:text-xl md:mt-6 py-2 px-4 ml-8 md:px-14 md:ml-14 sm:px-10 rounded cursor-pointer"
+      >
+        Save
+      </button>
 
       {/* ToastContainer to display toast notifications */}
       <ToastContainer
