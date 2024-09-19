@@ -17,6 +17,7 @@ const ProgramInfoBox = ({ name, initialValue, initialComment, onValueChange, onC
 
   const [selectedOption, setSelectedOption] = useState('select');
   const [value, setValue] = useState(initialValue || '0%');
+  const [comment, setComment] = useState(initialComment || ''); // Initialize with initial comment
   const [displayedIcon, setDisplayedIcon] = useState(getIconFromValue(initialValue || '0%'));
 
   const handleChange = (event) => {
@@ -53,6 +54,7 @@ const ProgramInfoBox = ({ name, initialValue, initialComment, onValueChange, onC
 
   const handleCommentChange = (event) => {
     const newComment = event.target.value;
+    setComment(newComment); // Update local state
     if (onCommentChange) {
       onCommentChange(newComment);
     }
@@ -74,7 +76,7 @@ const ProgramInfoBox = ({ name, initialValue, initialComment, onValueChange, onC
             <option value="2">❌</option>
             <option value="3">🔄</option>
           </select>
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center">
             <span className="text-base sm:text-lg md:text-3xl md:mr-10">{displayedIcon}</span>
             <div className="text-gray-600 text-xs sm:text-sm md:mr-10 md:text-xl">{value}</div>
           </div>
@@ -85,7 +87,8 @@ const ProgramInfoBox = ({ name, initialValue, initialComment, onValueChange, onC
           type="text"
           placeholder="Comment :"
           className="w-full py-2 md:py-3 lg:py-4 px-2 text-sm sm:text-base md:text-lg lg:text-xl"
-          onChange={handleCommentChange}
+          value={comment} // Display the initial comment
+          onChange={handleCommentChange} // Update on change
         />
       </td>
     </tr>
