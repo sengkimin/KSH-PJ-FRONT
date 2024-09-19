@@ -44,10 +44,14 @@ const ResidentList = () => {
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-[94%]">
-        <div className="flex justify-between items-center mb-10">
-          <div className="font-bold text-3xl md:text-4xl">Residents</div>
+        <div className="flex justify-between items-center mb-10  space-x-3">
+          {/* <div className="font-bold text-3xl md:text-4xl ">Residents</div> */}
+          <div className="font-bold text-2xl mr-[50px] mt-[10px] sm:text-3xl md:text-4xl mb-4 sm:mb-5">Residents</div>
+
+
+
           {/* Pass setSelectedYear to DropdownYearResident */}
-          <DropdownYearResident setSelectedYear={setSelectedYear} /> 
+          <DropdownYearResident setSelectedYear={setSelectedYear} />
           <DropdownResident />
         </div>
         <div>
