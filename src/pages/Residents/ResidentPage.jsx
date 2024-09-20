@@ -4,14 +4,14 @@ import DropdownResident from '../../components/ DropdownResident';
 import DropdownYearResident from '../../components/DropdownYearResident';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const residentsPerPage = 2; // Number of residents to display per page
   const [selectedYear, setSelectedYear] = useState(""); // Local state to store the selected year
   const token = localStorage.getItem('jwtToken');
   const location = useLocation();
   const { type } = location.state || { type: "1" }; // Default type if not passed
-
   useEffect(() => {
     const fetchResidents = async () => {
       if (!type || !selectedYear) return; // Ensure both type and year are available before fetching
@@ -32,46 +32,93 @@ const ResidentList = () => {
       }
     };
 
-    fetchResidents(); // Fetch residents when the component mounts or when year/type changes
-  }, [type, selectedYear, token]); // Add selectedYear to dependencies to trigger refetch when it changes
-
+    fetchResidents();
+  }, [type, selectedYear, token]); 
   const calculateAge = (dob) => {
     const currentYear = new Date().getFullYear();
     const birthYear = new Date(dob).getFullYear();
     return currentYear - birthYear;
   };
 
+  // Pagination logic
+  const totalResidents = residents.reduce(
+    (acc, resident) => acc + resident.attributes.residents.data.length,
+    0
+  );
+  const totalPages = Math.ceil(totalResidents / residentsPerPage);
+
+  const currentResidents = residents
+    .flatMap((resident) => resident.attributes.residents.data)
+    .slice((currentPage - 1) * residentsPerPage, currentPage * residentsPerPage);
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-[94%]">
-        <div className="flex justify-between items-center mb-10">
-          <div className="font-bold text-3xl md:text-4xl">Residents</div>
+        <div className="flex justify-between items-center mb-10  space-x-3">
+          {/* <div className="font-bold text-3xl md:text-4xl ">Residents</div> */}
+          {/* <div className="font-bold  mr-[50px] mt-[10px] sm:text-3xl md:text-4xl mb-4 sm:mb-5 text-sm">Residents</div> */}
+          <div><DropdownYearResident setSelectedYear={setSelectedYear} />
+          </div>
+          <div className='flex space-x-3'>
           {/* Pass setSelectedYear to DropdownYearResident */}
-          <DropdownYearResident setSelectedYear={setSelectedYear} /> 
           <DropdownResident />
+          </div>
         </div>
         <div>
-          {residents.length > 0 ? (
-            residents.map((resident) =>
-              resident.attributes.residents.data.map((EachResident) => {
-                const profileImgUrl = EachResident.attributes.profile_img_url?.data?.attributes?.url
-                  ? `http://localhost:1337${EachResident.attributes.profile_img_url.data.attributes.url}`
-                  : null;
+          {currentResidents.length > 0 ? (
+            currentResidents.map((EachResident) => {
+              const profileImgUrl = EachResident.attributes.profile_img_url?.data?.attributes?.url
+                ? `http://localhost:1337${EachResident.attributes.profile_img_url.data.attributes.url}`
+                : null;
 
-                return (
-                  <BoxResident
-                    key={EachResident.id}
-                    id={EachResident.id}
-                    image={profileImgUrl}
-                    name={EachResident.attributes.fullname_english}
-                    age={calculateAge(EachResident.attributes.date_of_birth)}
-                  />
-                );
-              })
-            )
+              return (
+                <BoxResident
+                  key={EachResident.id}
+                  id={EachResident.id}
+                  image={profileImgUrl}
+                  name={EachResident.attributes.fullname_english}
+                  age={calculateAge(EachResident.attributes.date_of_birth)}
+                />
+              );
+            })
           ) : (
             <div>Loading.....</div>
           )}
+        </div>
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center mt-4 space-x-3">
+          <button
+            onClick={prevPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+          >
+            Previous
+          </button>
+
+          {/* Display current page out of total pages */}
+          <span className="text-lg font-medium">
+            {currentPage} of {totalPages} pages
+          </span>
+
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
