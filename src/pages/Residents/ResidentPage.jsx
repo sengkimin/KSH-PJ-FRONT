@@ -4,7 +4,6 @@ import DropdownResident from '../../components/ DropdownResident';
 import DropdownYearResident from '../../components/DropdownYearResident';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +12,6 @@ const ResidentList = () => {
   const token = localStorage.getItem('jwtToken');
   const location = useLocation();
   const { type } = location.state || { type: "1" }; // Default type if not passed
-
   useEffect(() => {
     const fetchResidents = async () => {
       if (!type || !selectedYear) return; // Ensure both type and year are available before fetching
@@ -34,9 +32,8 @@ const ResidentList = () => {
       }
     };
 
-    fetchResidents(); // Fetch residents when the component mounts or when year/type changes
-  }, [type, selectedYear, token]); // Add selectedYear to dependencies to trigger refetch when it changes
-
+    fetchResidents();
+  }, [type, selectedYear, token]); 
   const calculateAge = (dob) => {
     const currentYear = new Date().getFullYear();
     const birthYear = new Date(dob).getFullYear();
@@ -69,12 +66,15 @@ const ResidentList = () => {
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-[94%]">
-        <div className="flex justify-between items-center mb-10 space-x-3">
-          <div className="font-bold text-2xl mr-[50px] mt-[10px] sm:text-3xl md:text-4xl mb-4 sm:mb-5">Residents</div>
-
+        <div className="flex justify-between items-center mb-10  space-x-3">
+          {/* <div className="font-bold text-3xl md:text-4xl ">Residents</div> */}
+          {/* <div className="font-bold  mr-[50px] mt-[10px] sm:text-3xl md:text-4xl mb-4 sm:mb-5 text-sm">Residents</div> */}
+          <div><DropdownYearResident setSelectedYear={setSelectedYear} />
+          </div>
+          <div className='flex space-x-3'>
           {/* Pass setSelectedYear to DropdownYearResident */}
-          <DropdownYearResident setSelectedYear={setSelectedYear} />
           <DropdownResident />
+          </div>
         </div>
         <div>
           {currentResidents.length > 0 ? (
