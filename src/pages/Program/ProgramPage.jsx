@@ -78,11 +78,15 @@ console.log(data);
 
       <div className="md:ml-20 text-2xl mb-8 font-semibold ml-4">
         Resident:{" "}
-        {data.map((program) => (
+        {data.map((program) => {
+          console.log(program)
+          return (
+
           <span key={program.id}>
-            {program.attributes.residents.data.length}
+            {program.attributes.activity.length}
           </span>
-        ))}
+          )
+})}
       </div>
 
       <div className="overflow-x-auto flex item-center">
