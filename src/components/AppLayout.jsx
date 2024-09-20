@@ -27,14 +27,14 @@ const AppLayout = () => {
     <PrivateRoute>
       <div className=" min-h-screen flex bg-gray-100">
         <div
-          className={`fixed inset-y-0 left-0 md:w-80 bg-[#F0E7D4] sm:w-64 text-white transform transition-transform ${
+          className={`fixed inset-y-0 left-0 md:w-80 bg-[#F0E7D4] sm:w-64 text-white transform transition-transform z-50 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } md:static md:translate-x-0 md:w-80`}
         >
           <div className="p-5 text-center text-3xl md:text-5xl text-[#207137] font-semibold border-b border-gray-700">
             KSH
           </div>
-          <nav className="mt-4">
+          <nav className="mt-4 ">
             <Link
               to="/"
               className="block text-xl md:text-2xl font-bold text-[#474747] py-4 md:py-6 px-4 hover:bg-[#207137]  hover:text-white flex items-center"
@@ -102,7 +102,7 @@ const AppLayout = () => {
           </nav>
         </div>
 
-        <div className={`flex-1 flex flex-col ${isSidebarOpen ? "overflow-hidden" : ""} relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden`}>
+        <div className={`flex-1 flex flex-col ${isSidebarOpen ? "overflow-hidden" : ""}  flex flex-1 flex-col overflow-y-auto overflow-x-hidden`}>
           <header className="flex items-center justify-between p-4 bg-white shadow-md">
             <div className="justify-center">
               <img

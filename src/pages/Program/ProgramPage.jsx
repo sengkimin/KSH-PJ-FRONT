@@ -1,126 +1,4 @@
 
-// import React, { useState, useEffect } from 'react';
-// import ProgramBox from '../../components/ProgramBox';
-// import axios from 'axios';
-
-// const ProgramPage = () => {
-//   const [data, setData] = useState(null);
-//   const [type, setType] = useState('1'); 
-
-//   const currentYear = new Date().getFullYear();
-//   const lastDayOfYear = new Date(currentYear, 11, 31); 
-//   const day = lastDayOfYear.getDate();
-//   const month = lastDayOfYear.getMonth() + 1;
-//   const year = lastDayOfYear.getFullYear();
-//   const token = localStorage.getItem('jwtToken');
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await axios.get(
-//           `http://localhost:1337/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][end_date][$gte]=${year}-${month}-${day}`
-//         ,{
-//           headers:   
-//           {'Authorization': `Bearer ${yourJwtToken}`,
-        
-
-
-//         }})
-
-//         setData(response.data);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
-
-//     fetchData();
-//   }, [type]);
-
-//   console.log(data);
-
-//   return (
-//     <div className="max-w-full mx-auto my-8 p-4">
-//       <div className="flex flex-row justify-between items-center mb-4">
-//         <button className="mb-4 md:mb-0 bg-gray-300 px-8 py-2 md:px-14 rounded">
-//           Back
-//         </button>
-//         <div className="flex items-center">
-//           <label className="block text-[16px] md:text-xl   mr-6 font-bold" htmlFor="type">
-//             Level:
-//           </label>
-//           <select
-//             id="type"
-//             value={type}
-//             onChange={(e) => setType(e.target.value)}
-//             className="p-2 border border-stone-600 rounded-md outline-none  h-9 w-20 md:w-28"
-//           >
-//             <option value="1">Level 1</option>
-//             <option value="2">Level 2</option>
-//             <option value="3">Level 3</option>
-//             <option value="4">Level 4</option>
-//             <option value="5">Level 5</option>
-//           </select>
-//         </div>
-//       </div>
-//       <div className="flex justify-center items-center mb-14">
-//         <h1 className="font-bold text-2xl md:text-4xl">Our Programs</h1>
-//       </div>
-//       <div className='text-4xl ml-20 font-bold mb-10'>Resident:</div>
-//       <div className="overflow-x-auto flex item-center">
-//         <table className="w-[90%] ml-20 bg-white border border-gray-300">
-//           <tbody>
-//             <ProgramBox 
-//               time="7:00 AM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-           
-//             />
-//             <ProgramBox 
-//               time="8:00 AM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-           
-//             />
-//             <ProgramBox 
-//               time="9:00 AM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-        
-//             />
-//             <ProgramBox 
-//               time="10:00 AM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-            
-//             />
-//             <ProgramBox 
-//               time="11:00 AM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-          
-//             />
-//             <ProgramBox 
-//               time="1:00 PM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-           
-//             />
-//             <ProgramBox 
-//               time="2:00 PM" 
-//               image="/resident.png" 
-//               title="Clean the leaf" 
-          
-//             />
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProgramPage;
-
-
 import React, { useState, useEffect } from 'react';
 import ProgramBox from '../../components/ProgramBox';
 import axios from 'axios';
@@ -170,29 +48,30 @@ const ProgramPage = () => {
 console.log(data);
   return (
     <div className="max-w-full mx-auto my-8 p-4">
-      <div className="flex flex-row justify-between items-center mb-4">
-        <button className="mb-4 md:mb-0 bg-gray-300 px-8 py-2 md:px-14 rounded">
-          Back
-        </button>
-        <div className="flex items-center">
-          <DropdownYearResident setSelectedYear={setSelectedYear}/>
-          <label className="block text-[16px] md:text-xl mr-6 font-bold" htmlFor="type">
-            Level:
-          </label>
-          <select
-            id="type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="p-2 border border-stone-600 rounded-md outline-none h-9 w-20 md:w-28"
-          >
-            <option value="1">Level 1</option>
-            <option value="2">Level 2</option>
-            <option value="3">Level 3</option>
-            <option value="4">Level 4</option>
-            <option value="5">Level 5</option>
-          </select>
-        </div>
-      </div>
+    
+    <div className="flex items-center justify-between mb-10">
+  <DropdownYearResident setSelectedYear={setSelectedYear} />
+  
+  <div className="flex items-center space-x-6">
+    <label className="block text-[16px] md:text-xl font-bold" htmlFor="type">
+      Level:
+    </label>
+    <select
+      id="type"
+      value={type}
+      onChange={(e) => setType(e.target.value)}
+      className="p-2 border border-stone-600 rounded-md outline-none h-9 w-20 md:w-28"
+    >
+      <option value="1">Level 1</option>
+      <option value="2">Level 2</option>
+      <option value="3">Level 3</option>
+      <option value="4">Level 4</option>
+      <option value="5">Level 5</option>
+    </select>
+  </div>
+</div>
+
+   
       <div className="flex justify-center items-center mb-14">
         <h1 className="font-bold text-3xl md:text-4xl">Our Programs</h1>
       </div>

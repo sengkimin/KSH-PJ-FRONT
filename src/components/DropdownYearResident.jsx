@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const DropdownYearResident = ({ setSelectedYear }) => {
-  const [years, setYears] = useState([]); // Initialize years as an array
+  const [years, setYears] = useState([]); 
   const token = localStorage.getItem("jwtToken");
 
   useEffect(() => {
