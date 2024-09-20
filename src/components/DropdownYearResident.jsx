@@ -29,9 +29,9 @@ const DropdownYearResident = ({ setSelectedYear }) => {
   };
 
   return (
-    <div className="mb-4 flex flex-col sm:flex-row sm:items-center ">
+    <div className="mb-4 flex  sm:items-center ">
       <label
-        className="block text-[16px] md:text-xl mt-2 sm:mt-4 sm:mr-2 font-bold  "
+        className="block text-[16px] md:text-xl mt-5 sm:mt-4 mr-4 font-bold  "
         htmlFor="year"
       >
         Year:
@@ -39,7 +39,7 @@ const DropdownYearResident = ({ setSelectedYear }) => {
       <select
         id="year"
         onChange={handleYearChange}
-        className="p-2 border border-stone-600 rounded-md outline-none mt-2 sm:mt-3 h-9 w-full md:w-44 w-[90px] "
+        className="p-2 border border-stone-600 rounded-md outline-none mt-3 sm:mt-3 h-9  md:w-44 w-[90px] "
       >
         <option value="">Select Year</option>
         {years?.map((eachYear) => (

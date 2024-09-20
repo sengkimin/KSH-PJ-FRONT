@@ -43,13 +43,13 @@ const ProgramPage = () => {
 
   const extractImageUrl = (programActivity) => {
     const imgData = programActivity?.img_url?.data;
-    return imgData ? `http://localhost:1337${imgData[0]?.attributes?.url}` : null;
+    return imgData ? `                       ${imgData[0]?.attributes?.url}` : null;
   };
 console.log(data);
   return (
     <div className="max-w-full mx-auto my-8 p-4">
     
-    <div className="flex items-center justify-between mb-10">
+    <div className="flex items-center justify-xbetween mb-10">
   <DropdownYearResident setSelectedYear={setSelectedYear} />
   
   <div className="flex items-center space-x-6">
@@ -95,6 +95,7 @@ console.log(data);
             {data.map((program) =>
               program.attributes.activity.map((activity) => {
                 const imageUrl = extractImageUrl(activity.program_activity?.data?.attributes);
+                console.log("Image",imageUrl)
 
                 return (
                   <ProgramBox
@@ -102,6 +103,7 @@ console.log(data);
                     level={program.attributes.curriculum.data.id}
                     time={activity.activity_time.substring(0, 5)}
                     image={imageUrl}
+                    
                     title={activity.program_activity?.data?.attributes?.program_activity_name}
                   />
                 );
