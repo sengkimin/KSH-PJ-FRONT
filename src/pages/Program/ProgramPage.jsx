@@ -49,12 +49,12 @@ console.log(data);
   return (
     <div className="max-w-full mx-auto my-8 p-4">
     
-    <div className="flex items-center justify-xbetween mb-10">
+    <div className="flex items-center justify-between mb-10">
   <DropdownYearResident setSelectedYear={setSelectedYear} />
   
   <div className="flex items-center space-x-6">
     <label className="block text-[16px] md:text-xl font-bold" htmlFor="type">
-      Level:
+      Level :
     </label>
     <select
       id="type"

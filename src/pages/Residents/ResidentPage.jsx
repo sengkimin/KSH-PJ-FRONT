@@ -7,14 +7,14 @@ import { useLocation } from 'react-router-dom';
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const residentsPerPage = 2; // Number of residents to display per page
-  const [selectedYear, setSelectedYear] = useState(""); // Local state to store the selected year
+  const residentsPerPage = 2; 
+  const [selectedYear, setSelectedYear] = useState(""); 
   const token = localStorage.getItem('jwtToken');
   const location = useLocation();
-  const { type } = location.state || { type: "1" }; // Default type if not passed
+  const { type } = location.state || { type: "1" };
   useEffect(() => {
     const fetchResidents = async () => {
-      if (!type || !selectedYear) return; // Ensure both type and year are available before fetching
+      if (!type || !selectedYear) return; 
 
       const url = `http://localhost:1337/api/curriculum-program-levels?filters[program_level][program_level_name][$eq]=Level%20${type}&populate[residents][populate]=profile_img_url&filters[curriculum][curriculum_name][$eq]=${selectedYear}&populate=*`;
 
@@ -40,7 +40,6 @@ const ResidentList = () => {
     return currentYear - birthYear;
   };
 
-  // Pagination logic
   const totalResidents = residents.reduce(
     (acc, resident) => acc + resident.attributes.residents.data.length,
     0
@@ -67,12 +66,9 @@ const ResidentList = () => {
     <div className="flex justify-center items-center w-full">
       <div className="w-[94%]">
         <div className="flex justify-between items-center mb-10  space-x-3">
-          {/* <div className="font-bold text-3xl md:text-4xl ">Residents</div> */}
-          {/* <div className="font-bold  mr-[50px] mt-[10px] sm:text-3xl md:text-4xl mb-4 sm:mb-5 text-sm">Residents</div> */}
           <div><DropdownYearResident setSelectedYear={setSelectedYear} />
           </div>
           <div className='flex space-x-3'>
-          {/* Pass setSelectedYear to DropdownYearResident */}
           <DropdownResident />
           </div>
         </div>
@@ -97,7 +93,6 @@ const ResidentList = () => {
             <div>Loading.....</div>
           )}
         </div>
-        {/* Pagination Controls */}
         <div className="flex justify-center items-center mt-4 space-x-3">
           <button
             onClick={prevPage}
@@ -107,7 +102,6 @@ const ResidentList = () => {
             Previous
           </button>
 
-          {/* Display current page out of total pages */}
           <span className="text-lg font-medium">
             {currentPage} of {totalPages} pages
           </span>

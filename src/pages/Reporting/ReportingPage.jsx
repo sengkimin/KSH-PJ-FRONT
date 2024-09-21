@@ -18,7 +18,7 @@ const Reporting = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <label className="block text-[16px] md:text-xl mt-5 md:mt-4 mr-6 font-bold" htmlFor="level">
-            Level:
+            Level :
           </label>
           <select
             id="level"
