@@ -8,10 +8,10 @@ const ProgramBox = ({ time, image, title, level }) => {
       <td className="py-2 px-5 md:py-4 text-center border-r border-gray-300">
         <img src={image} alt={title} className="w-32 h-26 md:w-40 md:h-32 object-cover mx-auto" />
       </td>
-      <td className="py-2 px-6 md:py-4 text-center font-medium text-lg md:text-2xl border-r border-gray-300">
+      <td className="py-2 px-6 md:py-4 text-center font-medium text-lg md:text-2xl border-r border-gray-300 object-cover">
         <Link
           to={`/program/${level}/${title}`}
-          state={{ image }} // Pass image URL as state
+          state={{ image }} 
         >
           {title}
         </Link>

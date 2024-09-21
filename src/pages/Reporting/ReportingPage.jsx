@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ScrollTable from '../../components/ScrollTable';
+import ReportTable from '../../components/ReportTable';
 import "react-datepicker/dist/react-datepicker.css";
 
 const Reporting = () => {
@@ -79,7 +79,7 @@ const Reporting = () => {
   
 
       <div className="mt-10">
-        <ScrollTable level='Level 1' type='General Hyien' resident='alya' image='/resident.jpg' actname='Clean the Leaf' actdate='18/09/2024' score='100/100' com='Very good' slead='User A' scom='Normal' pwdby='Yes' pwdcom='Nice' />
+        <ReportTable level='Level 1' type='General Hyien' resident='alya' image='/resident.jpg' actname='Clean the Leaf' actdate='18/09/2024' score='100/100' com='Very good' slead='User A' scom='Normal' pwdby='Yes' pwdcom='Nice' />
      
 
 

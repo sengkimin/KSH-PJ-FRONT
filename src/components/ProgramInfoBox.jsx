@@ -15,7 +15,7 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
   };
 
   const [selectedOption, setSelectedOption] = useState('select');
-  const [value, setValue] = useState(initialValue ?? '0%');  // Handle null/undefined initialValue
+  const [value, setValue] = useState(initialValue ?? '0%'); 
   const [comment, setComment] = useState(initialComment || '');
   const [displayedIcon, setDisplayedIcon] = useState(getIconFromValue(initialValue ?? '0%'));
 
@@ -26,7 +26,6 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
       setValue(initialValue);
       setDisplayedIcon(getIconFromValue(initialValue));
 
-      // Set the selected option based on the initial value
       if (initialValue === '100%') {
         setSelectedOption('1');
       } else if (initialValue === '0%') {
@@ -90,7 +89,7 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
           <img
             src={profile}
             alt="Profile"
-            className="w-12 h-20 md:w-16 md:h-20 rounded-full mr-4 object-cover"
+            className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4 object-cover"
           />
         )}
         {name}
