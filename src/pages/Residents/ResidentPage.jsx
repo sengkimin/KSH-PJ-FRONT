@@ -76,7 +76,7 @@ const ResidentList = () => {
           {currentResidents.length > 0 ? (
             currentResidents.map((EachResident) => {
               const profileImgUrl = EachResident.attributes.profile_img_url?.data?.attributes?.url
-                ? `http://localhost:1337${EachResident.attributes.profile_img_url.data.attributes.url}`
+                ? `${EachResident.attributes.profile_img_url.data.attributes.url}`
                 : null;
 
               return (
@@ -90,7 +90,7 @@ const ResidentList = () => {
               );
             })
           ) : (
-            <div>Loading.....</div>
+            <div>...Pls Select Each Year First...</div>
           )}
         </div>
         <div className="flex justify-center items-center mt-4 space-x-3">

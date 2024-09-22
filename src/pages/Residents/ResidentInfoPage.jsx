@@ -46,7 +46,7 @@ const ResidentInfo = () => {
   }
 
   const profileImageUrl = residentData.profile_img_url?.data?.attributes?.formats?.thumbnail?.url
-    ? `http://localhost:1337${residentData.profile_img_url.data.attributes.formats.thumbnail.url}`
+    ? `${residentData.profile_img_url.data.attributes.formats.thumbnail.url}`
     : null;
 
   const documents = residentData.document || []; 
@@ -96,7 +96,7 @@ const ResidentInfo = () => {
                   <h1>{doc.document_type}</h1>
                   {doc.file_media?.data?.length > 0 && doc.file_media.data[0].attributes.formats?.thumbnail?.url && (
                     <img
-                      src={`http://localhost:1337${doc.file_media.data[0].attributes.formats.thumbnail.url}`}
+                      src={`${doc.file_media.data[0].attributes.formats.thumbnail.url}`}
                       alt={doc.document_type}
                       className='w-32 h-32 md:w-44 md:h-44 object-cover rounded'
                     />

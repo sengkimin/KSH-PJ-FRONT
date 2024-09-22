@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import ProgramInfoBox from "../../components/ProgramInfoBox";
-import { Link, useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TaskPage = () => {
   const [programInfo, setProgramInfo] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 5; // Change this to your desired items per page
   const token = localStorage.getItem("jwtToken");
   const location = useLocation();
   const { image } = location.state || {};
@@ -33,6 +35,8 @@ const TaskPage = () => {
           },
         });
         setProgramInfo(response.data?.data || []);
+        const totalItems = response.data?.data?.length || 0;
+        setTotalPages(Math.ceil(totalItems / itemsPerPage));
       } catch (error) {
         console.error("Error fetching the residents data:", error);
       }
@@ -45,16 +49,12 @@ const TaskPage = () => {
     try {
       for (const program of programInfo) {
         const id = program.id;
-
-        // Get current values of score_point and comment from fetched data
         const currentScore = program.attributes?.score_point?.data?.attributes?.score_point;
         const currentComment = program.attributes?.description;
 
-        // If no changes, use existing values
         const value = program.value || `${currentScore}%` || "0%";
         const comment = program.comment || currentComment || "";
 
-        // Send the PUT request with the existing data
         const response = await axios.put(
           `http://localhost:1337/api/resident-checklists/${id}`,
           {
@@ -114,6 +114,13 @@ const TaskPage = () => {
     );
   };
 
+  const getPaginatedData = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return programInfo.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  const paginatedProgramInfo = getPaginatedData();
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
       <div className="w-[95%] flex flex-row justify-between items-center mb-6">
@@ -144,6 +151,10 @@ const TaskPage = () => {
         </div>
       </div>
 
+      <div className="md:ml-20 text-2xl mb-8 font-semibold ml-4">
+        Resident: <span>{programInfo.length}</span>
+      </div>
+
       <h1 className="text-3xl sm:text-4xl font-bold text-green-700 mb-4 text-center">
         {title}
       </h1>
@@ -157,7 +168,7 @@ const TaskPage = () => {
       <div className="w-[95%] overflow-x-auto">
         <table className="w-full mt-10 bg-white rounded-lg">
           <tbody>
-            {programInfo.map((program) => (
+            {paginatedProgramInfo.map((program) => (
               <ProgramInfoBox
                 key={program.id}
                 profile="/resident.png"
@@ -172,7 +183,7 @@ const TaskPage = () => {
                 }
                 initialComment={
                   program.attributes.score_point.data
-                    ? program.attributes.description 
+                    ? program.attributes.description
                     : program.comment || ""
                 }
                 onValueChange={(newValue) =>
@@ -186,9 +197,31 @@ const TaskPage = () => {
           </tbody>
         </table>
 
+        <div className="flex justify-center items-center mt-4 space-x-3">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white rounded'}`}
+          >
+            Previous
+          </button>
+
+          <span className="text-lg font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white rounded'}`}
+          >
+            Next
+          </button>
+        </div>
+
         <button
           onClick={handleSave}
-          className="bg-green-700 text-white text-sm py-2 px-6 mt-4 md:mt-10 ml-auto md:ml-0 rounded cursor-pointer  md:text-xl md:px-14"
+          className="bg-green-700 text-white text-sm py-2 px-6 mt-4 md:mt-10 ml-auto md:ml-0 rounded cursor-pointer md:text-xl md:px-14"
         >
           Save
         </button>

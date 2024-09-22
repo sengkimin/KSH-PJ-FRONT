@@ -36,8 +36,8 @@ const MedicalInfo = () => {
   console.log(medicalData)
 
   const resident = medicalData?.resident?.data;
-  const imgUrl = resident?.attributes?.profile_img_url?.data?.[0]?.attributes?.formats?.thumbnail?.url;
-  const fullImgUrl = imgUrl ? `http://localhost:1337${imgUrl}` : 'default-image.jpg';
+  const imgUrl = resident?.attributes?.profile_img_url?.data?.attributes?.url;
+  const fullImgUrl = imgUrl ? `${imgUrl}` : 'default-image.jpg';
 
   const medicineDocUrl = medicalData?.medicine_document?.data?.[0]?.attributes?.url;
   const lastPrescriptionDocUrl = medicalData?.last_prescription_document?.data?.[0]?.attributes?.url;

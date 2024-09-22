@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import MedicalBox from '../../components/MedicalBox';
 import axios from 'axios';
@@ -10,7 +8,7 @@ const MedicalPage = () => {
   const [medical, setMedicals] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const itemsPerPage = 5; 
+  const itemsPerPage = 3; 
 
   useEffect(() => {
     const fetchMedicals = async () => {
@@ -26,7 +24,6 @@ const MedicalPage = () => {
         const data = response.data?.data || [];
         setMedicals(data);
 
-   
         const totalEntries = response.data?.meta?.pagination?.total || 0;
         const totalPageCount = Math.ceil(totalEntries / itemsPerPage);
         setTotalPages(totalPageCount);
@@ -58,15 +55,14 @@ const MedicalPage = () => {
         </div>
         <div>
           {medical.map((medicalItem) => {
-            const imgUrl = medicalItem.attributes?.resident?.data?.attributes?.profile_img_url?.data?.[0]?.attributes?.formats?.thumbnail?.url;
-            const fullImgUrl = imgUrl ? `http://localhost:1337${imgUrl}` : 'default.jpg';
+            const imgUrl = medicalItem.attributes?.resident?.data?.attributes?.profile_img_url?.data?.attributes?.url;
+            const fullImgUrl = imgUrl ? `${imgUrl}` : 'default.jpg';
 
             return (
               <MedicalBox
                 key={medicalItem.id}
                 id={medicalItem.attributes?.resident?.data?.id}
                 image={fullImgUrl}
-           
                 name={medicalItem.attributes?.resident?.data?.attributes?.fullname_english || 'Unknown Name'}
                 medical_use={medicalItem.attributes?.require_to_use ? "True" : "False"}
               />
@@ -74,6 +70,7 @@ const MedicalPage = () => {
           })}
         </div>
 
+        {/* Pagination Controls */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center mt-4 space-x-3">
             <button
