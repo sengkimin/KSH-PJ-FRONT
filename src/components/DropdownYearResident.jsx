@@ -12,7 +12,7 @@ const DropdownYearResident = ({ setSelectedYear }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/curricula", {
+        const response = await axios.get("https://strapi.ksh.thewmad.info/api/curricula", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

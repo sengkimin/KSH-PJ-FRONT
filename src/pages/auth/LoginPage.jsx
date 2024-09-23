@@ -19,7 +19,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
     };
   
     try {
-      const response = await fetch("http://localhost:1337/api/auth/local", {
+      const response = await fetch("https://strapi.ksh.thewmad.info/api/auth/local", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
   
         // Fetch user details including role
         const userId = result.user.id; // Assuming the result includes user ID
-        const userResponse = await fetch(`http://localhost:1337/api/users/${userId}?populate=role`, {
+        const userResponse = await fetch(`https://strapi.ksh.thewmad.info/api/users/${userId}?populate=role`, {
           headers: {
             Authorization: `Bearer ${result.jwt}`,
           },

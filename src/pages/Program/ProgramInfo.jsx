@@ -19,7 +19,7 @@ const TaskPage = () => {
   const today = new Date().toISOString().split("T")[0];
   const selectedDate = selectedOption === "today" ? today : customDate;
 
-  const URL = `http://localhost:1337/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident][populate]=profile_img_url&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
+  const URL = `https://strapi.ksh.thewmad.info/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident][populate]=profile_img_url&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
 
   useEffect(() => {
     const fetchProgramInfo = async () => {
@@ -56,7 +56,7 @@ const TaskPage = () => {
         const comment = program.comment || currentComment || "";
 
         const response = await axios.put(
-          `http://localhost:1337/api/resident-checklists/${id}`,
+          `https://strapi.ksh.thewmad.info/api/resident-checklists/${id}`,
           {
             data: {
               score_point: value === "100%" ? 1 : value === "50%" ? 3 : 2,

@@ -31,7 +31,7 @@ const Reporting = () => {
     
       try {
         // Base URL
-        let url = `http://localhost:1337/api/resident-checklists?populate[resident]=*&populate[score_point]=*&populate[program_activity][populate]=program_type&populate[curriculum_schedule][populate][curriculum_program_level][populate]=program_level,curriculum&filters[checklist_date][$eq]=${selectedDate}&filters[curriculum_schedule][curriculum_program_level][curriculum][curriculum_name][$eq]=${selectedYear}&filters[curriculum_schedule][curriculum_program_level][program_level][program_level_name][$eq]=Level%20${level}&populate[program_activity][populate]=program_type,img_url`;
+        let url = `https://strapi.ksh.thewmad.info/api/resident-checklists?populate[resident]=*&populate[score_point]=*&populate[program_activity][populate]=program_type&populate[curriculum_schedule][populate][curriculum_program_level][populate]=program_level,curriculum&filters[checklist_date][$eq]=${selectedDate}&filters[curriculum_schedule][curriculum_program_level][curriculum][curriculum_name][$eq]=${selectedYear}&filters[curriculum_schedule][curriculum_program_level][program_level][program_level_name][$eq]=Level%20${level}&populate[program_activity][populate]=program_type,img_url`;
     
         // Conditionally add the program type filter
         if (type !== 'all') {

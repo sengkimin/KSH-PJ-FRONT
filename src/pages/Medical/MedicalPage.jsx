@@ -14,7 +14,7 @@ const MedicalPage = () => {
     const fetchMedicals = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:1337/api/resident-medicals?filters[require_to_use][$eq]=true&populate[resident][populate]=profile_img_url&pagination[page]=${currentPage}&pagination[pageSize]=${itemsPerPage}`,
+          `https://strapi.ksh.thewmad.info/api/resident-medicals?filters[require_to_use][$eq]=true&populate[resident][populate]=profile_img_url&pagination[page]=${currentPage}&pagination[pageSize]=${itemsPerPage}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, 

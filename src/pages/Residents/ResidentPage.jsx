@@ -16,7 +16,7 @@ const ResidentList = () => {
     const fetchResidents = async () => {
       if (!type || !selectedYear) return; 
 
-      const url = `http://localhost:1337/api/curriculum-program-levels?filters[program_level][program_level_name][$eq]=Level%20${type}&populate[residents][populate]=profile_img_url&filters[curriculum][curriculum_name][$eq]=${selectedYear}&populate=*`;
+      const url = `https://strapi.ksh.thewmad.info/api/curriculum-program-levels?filters[program_level][program_level_name][$eq]=Level%20${type}&populate[residents][populate]=profile_img_url&filters[curriculum][curriculum_name][$eq]=${selectedYear}&populate=*`;
 
       try {
         const response = await axios.get(url, {

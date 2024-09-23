@@ -131,7 +131,7 @@ const ResidentInfo = () => {
     const fetchResidentData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:1337/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`,
+          `https://strapi.ksh.thewmad.info/api/beneficiaries/${id}?populate[profile_img_url]=*&populate[document][populate]=file_media`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,

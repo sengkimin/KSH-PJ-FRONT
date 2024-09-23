@@ -9,7 +9,7 @@ const Assesment = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = `http://localhost:1337/api/assessments`;
+      const url = `https://strapi.ksh.thewmad.info/api/assessments`;
 
       try {
         const response = await axios.get(url, {

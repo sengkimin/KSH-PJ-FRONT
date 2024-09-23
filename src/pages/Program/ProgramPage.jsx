@@ -19,7 +19,7 @@ const ProgramPage = () => {
     const fetchData = async () => {
       if (!type) return;
 
-      const url = `http://localhost:1337/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][curriculum_name][$eq]=${selectedYear}`;
+      const url = `https://strapi.ksh.thewmad.info/api/curriculum-program-levels?populate[residents]=*&populate[activity][populate]=program_activity.img_url&populate[program_level]=*&populate[curriculum]=*&filters[program_level][program_level_name][$eq]=Level%20${type}&filters[curriculum][curriculum_name][$eq]=${selectedYear}`;
 
       try {
         const response = await axios.get(url, {

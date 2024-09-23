@@ -12,7 +12,7 @@ const DropdownActivity = ({ setSelectedactivity }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/program-types", {
+        const response = await axios.get("https://strapi.ksh.thewmad.info/api/program-types", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -12,7 +12,7 @@ const MedicalInfo = () => {
     const fetchMedicalData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:1337/api/resident-medicals?filters[require_to_use][$eq]=true&filters[resident][id][$eq]=${id}&populate=resident.profile_img_url&populate=last_prescription_document&populate=medicine_document`,
+          `https://strapi.ksh.thewmad.info/api/resident-medicals?filters[require_to_use][$eq]=true&filters[resident][id][$eq]=${id}&populate=resident.profile_img_url&populate=last_prescription_document&populate=medicine_document`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
