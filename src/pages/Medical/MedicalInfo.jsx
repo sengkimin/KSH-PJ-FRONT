@@ -1,5 +1,3 @@
-;
-
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import MedicalBoxInfo from '../../components/MedicalBoxInfo';
@@ -33,11 +31,10 @@ const MedicalInfo = () => {
   if (!medicalData) {
     return <p>Loading...</p>;
   }
-  console.log(medicalData)
 
   const resident = medicalData?.resident?.data;
   const imgUrl = resident?.attributes?.profile_img_url?.data?.attributes?.url;
-  const fullImgUrl = imgUrl ? `${imgUrl}` : 'default-image.jpg';
+  const fullImgUrl = imgUrl || 'default-image.jpg'; 
 
   const medicineDocUrl = medicalData?.medicine_document?.data?.[0]?.attributes?.url;
   const lastPrescriptionDocUrl = medicalData?.last_prescription_document?.data?.[0]?.attributes?.url;
@@ -53,8 +50,8 @@ const MedicalInfo = () => {
         {fullImgUrl ? (
           <img
             src={fullImgUrl}
-            alt="Resident"
-            className="h-24 w-24 md:h-36 md:w-36 rounded-full"
+            alt="Profile"
+            className="h-32 w-32 md:h-56 md:w-56 rounded-full object-cover"
           />
         ) : (
           <p>No Image Available</p>
@@ -64,16 +61,18 @@ const MedicalInfo = () => {
       <h1 className="text-xl md:text-3xl font-bold text-center mb-6">Medical Information</h1>
       <div className="min-h-screen bg-gray-100 flex flex-col items-center p-8">
         <div className="bg-white w-full max-w-7xl rounded-lg p-4 md:p-6">
-          <MedicalBoxInfo name="Disability / Disorder:" value={resident.attributes.type_of_disability} />
+          <MedicalBoxInfo name="Disability / Disorder:" value={resident?.attributes?.type_of_disability} />
           <MedicalBoxInfo name="Medical Treatment:" value={medicalData.medical_treatment} />
           <MedicalBoxInfo name="Doctor:" value={medicalData.doctor} />
           <MedicalBoxInfo name="Comments:" value={medicalData.specailist_doctor_comment} />
           <MedicalBoxInfo name="Next appointment:" value={medicalData.next_appointment} />
+          <h1 className='text-center mt-10 font-bold text-xl md:text-3xl'>Documents</h1>
+
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10">
             <div className="flex flex-col items-center">
               <h1 className="mb-6 text-2xl font-bold">Medicine Document</h1>
               {medicineDocUrl ? (
-                <a href={`http://localhost:1337${medicineDocUrl}`} target="_blank" rel="noopener noreferrer">
+                <a href={`${medicineDocUrl}`} target="_blank" rel="noopener noreferrer">
                   <img src="/donwlod.png" alt="Medicine Document" className="w-full" />
                 </a>
               ) : (
@@ -83,7 +82,7 @@ const MedicalInfo = () => {
             <div className="flex flex-col items-center">
               <h1 className="mb-6 text-2xl font-bold">Last Prescription</h1>
               {lastPrescriptionDocUrl ? (
-                <a href={`http://localhost:1337${lastPrescriptionDocUrl}`} target="_blank" rel="noopener noreferrer">
+                <a href={`${lastPrescriptionDocUrl}`} target="_blank" rel="noopener noreferrer">
                   <img src="/donwlod.png" alt="Last Prescription" className="w-full" />
                 </a>
               ) : (
@@ -98,7 +97,3 @@ const MedicalInfo = () => {
 };
 
 export default MedicalInfo;
-
-
-
-
