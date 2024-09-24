@@ -200,6 +200,7 @@ const Reporting = () => {
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Program Level</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Program Type</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Resident</th>
+                    <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Image Activity</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Activity Name</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Activity Date</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Score Point</th>
