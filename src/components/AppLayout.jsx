@@ -11,6 +11,7 @@ const AppLayout = () => {
 
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole");
+  const userImage = localStorage.getItem("imageUser")
 
   const handleLogOut = () => {
     localStorage.clear();
@@ -47,7 +48,7 @@ const AppLayout = () => {
               onClick={closeSidebar}
             >
               <img 
-                src="/resident.png"
+                src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161249/resident_5e1d62f6a2.png"
                 alt="Residents"
                 className="h-16 w-15 md:w-17 mr-6"
               />
@@ -64,7 +65,7 @@ const AppLayout = () => {
                 onClick={closeSidebar}
               >
                 <img
-                  src="/program.png"
+                  src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161303/program_30abe0df07.png"
                   alt="Programs"
                   className="h-16 w-15 md:w-18 mr-6"
                 />
@@ -82,7 +83,7 @@ const AppLayout = () => {
                 onClick={closeSidebar}
               >
                 <img
-                  src="/assesment.png"
+                  src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161358/assesment_c4fef152b9.png"
                   alt="Assessment"
                   className="h-17 w-20 mr-10"
                 />
@@ -100,7 +101,7 @@ const AppLayout = () => {
                 onClick={closeSidebar}
               >
                 <img
-                  src="/report.png"
+                  src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161401/report_c223b65a45.png"
                   alt="Reporting"
                   className="h-17 w-20 mr-10"
                 />
@@ -118,7 +119,7 @@ const AppLayout = () => {
                 onClick={closeSidebar}
               >
                 <img
-                  src="/medicals.png"
+                  src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161444/medicals_9b9bc63944.png"
                   alt="Medical"
                   className="h-17 w-20 mr-10"
                 />
@@ -132,7 +133,7 @@ const AppLayout = () => {
           <header className="flex items-center justify-between p-4 bg-white shadow-md">
             <div className="justify-center">
               <img
-                src="/khslogo.jpg"
+                src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727160393/photo_2024_09_24_13_43_19_74e3099b67.jpg"
                 alt="Logo"
                 className="h-11 w-11 md:h-14 md:w-14 rounded-full"
               />
@@ -146,9 +147,9 @@ const AppLayout = () => {
               >
                 <FaBars className="w-6 h-6" />
               </button>
-              <button className="bg-gray-400 text-white p-2 md:p-3 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                <FaUser className="w-4 h-4" />
-              </button>
+              <div className="bg-gray-400 text-white h-11 w-11 md:h-14 md:w-14 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                <img src={userImage} className="h-11 w-11 md:h-14 md:w-14 rounded-full" />
+              </div>
               <button
                 onClick={handleLogOut}
                 className="bg-red-600 text-white px-4 md:px-6 py-1 md:py-2 rounded hover:bg-red-800"

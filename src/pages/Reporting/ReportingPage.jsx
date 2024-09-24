@@ -174,9 +174,9 @@ const Reporting = () => {
         </div>
 
         <div className="flex space-x-4 justify-between">
-          <DropdownActivity setSelectedactivity={setType} />
+        <DropdownYearResident setSelectedYear={setSelectedYear} />
           <div className="space-x-4">
-            <DropdownYearResident setSelectedYear={setSelectedYear} />
+          <DropdownActivity setSelectedactivity={setType} />
           </div>
         </div>
 
@@ -185,8 +185,8 @@ const Reporting = () => {
         </div>
 
         {/* Export to Excel button */}
-        <div className="flex justify-end mb-4">
-          <button onClick={handleDownloadExcel} className="bg-blue-500 text-white px-4 py-2 rounded">
+        <div className="flex justify-end pt-4">
+          <button onClick={handleDownloadExcel} className="bg-blue-500 text-white px-2 py-2 rounded">
             Export to Excel
           </button>
         </div>

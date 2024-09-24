@@ -121,6 +121,8 @@ const TaskPage = () => {
 
   const paginatedProgramInfo = getPaginatedData();
 
+  console.log("programInfodata",programInfo)
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
       <div className="w-[95%] flex flex-row justify-between items-center mb-6">
@@ -171,7 +173,7 @@ const TaskPage = () => {
             {paginatedProgramInfo.map((program) => (
               <ProgramInfoBox
                 key={program.id}
-                profile="/resident.png"
+                profile={program.attributes.resident.data.attributes.profile_img_url.data.attributes.formats.thumbnail.url}
                 name={
                   program.attributes.resident.data.attributes.fullname_english
                 }

@@ -70,6 +70,8 @@ const ProgramPage = () => {
 
   const paginatedActivities = getPaginatedActivities();
 
+  console.log(data);
+
   return (
     <div className="max-w-full mx-auto my-8 p-4">
       <div className="flex items-center justify-between mb-10">

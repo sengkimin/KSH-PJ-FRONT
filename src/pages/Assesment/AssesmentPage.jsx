@@ -55,7 +55,7 @@ const Assesment = () => {
         Assessment
       </div>
       {currentItems.map((assessment) => (
-        <div key={assessment.id} className="border-b-2 border-gray-300 py-6 flex bg-white mt-10 justify-between">
+        <div key={assessment.id} className="border-b-2 border-gray-300 py-6 flex bg-white justify-between">
           <div className="w-1/2 text-left font-bold text-md md:text-lg lg:text-xl ml-10">
             Title: {assessment.attributes.title}
           </div>

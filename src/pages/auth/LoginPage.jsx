@@ -33,8 +33,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
         localStorage.setItem("jwtToken", result.jwt);
   
         // Fetch user details including role
-        const userId = result.user.id; // Assuming the result includes user ID
-        const userResponse = await fetch(`https://strapi.ksh.thewmad.info/api/users/${userId}?populate=role`, {
+        const userId = result.user.id;
+        const userResponse = await fetch(`https://strapi.ksh.thewmad.info/api/users/${userId}?populate=role,profile_img`, {
           headers: {
             Authorization: `Bearer ${result.jwt}`,
           },
@@ -43,10 +43,19 @@ const LoginPage = ({ setIsLoggedIn }) => {
         const userResult = await userResponse.json();
   
         if (userResponse.ok) {
-          const roleName = userResult.role.name; // Extracting role name
+          const roleName = userResult.role?.name; // Extracting role name
           console.log("User role:", roleName);
   
           localStorage.setItem("userRole", roleName); // Store the user's role
+  
+          // Check if profile_img exists and has formats
+          const imageuser = userResult.profile_img?.formats?.thumbnail?.url;
+          
+          if (imageuser) {
+            localStorage.setItem("imageUser", imageuser);
+          } else {
+            console.warn("No profile image found.");
+          }
   
           if (typeof setIsLoggedIn === "function") {
             setIsLoggedIn(true);
@@ -68,13 +77,13 @@ const LoginPage = ({ setIsLoggedIn }) => {
     } finally {
       setLoading(false);
     }
-  };
+  };  
   
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-4">
       <div className="flex flex-col justify-center w-full md:w-1/3 p-8 bg-white rounded-lg mx-4 md:mx-0 md:mr-12 ">
         <div className="flex justify-center mb-6 md:mb-16">
-          <img src="khslogo.jpg" alt="Logo" className="h-24 w-24 rounded-full" />
+          <img src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727160393/photo_2024_09_24_13_43_19_74e3099b67.jpg" alt="Logo" className="h-24 w-24 rounded-full" />
         </div>
         <h1 className="text-2xl md:text-3xl font-bold mb-2">Get Started</h1>
         <p className="text-gray-500 mb-12">Welcome to our organization KSH</p>
@@ -131,7 +140,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
       </div>
 
       <div className="hidden md:block md:w-1/2 h-screen mt-3">
-        <img src="kshteam.jpg" alt="Group" className="object-cover w-full h-full rounded-xl" />
+        <img src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161592/kshteam_f1e12ff6d3.jpg" alt="Group" className="object-cover w-full h-full rounded-xl" />
       </div>
     </div>
   );
