@@ -5,6 +5,8 @@ import DropdownYearResident from '../../components/DropdownYearResident';
 import axios from 'axios';
 import DropdownActivity from '../../components/DropDownactivity';
 import { downloadExcel } from "react-export-table-to-excel";
+import { Audio } from 'react-loader-spinner'
+
 
 const Reporting = () => {
   const [level, setLevel] = useState('1');
@@ -128,7 +130,16 @@ const Reporting = () => {
   console.log(checklistData)
   return (
     <div>
-      {loading && <p>Loading...</p>}
+      {loading && <div className="flex justify-center items-center h-screen">
+    <Audio
+      height="80"
+      width="80"
+      radius="9"
+      color="green"
+      ariaLabel="loading"
+      wrapperClass="flex justify-center items-center"
+    />
+  </div>}
       {error && <p>{error.message}</p>}
      
       <div className="w-[92%] mx-auto">
