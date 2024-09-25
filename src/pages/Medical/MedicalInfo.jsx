@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import MedicalBoxInfo from '../../components/MedicalBoxInfo';
 import axios from 'axios';
+import { Audio } from 'react-loader-spinner'
+
 
 const MedicalInfo = () => {
   const { id } = useParams();
@@ -29,7 +31,16 @@ const MedicalInfo = () => {
   }, [id]);
 
   if (!medicalData) {
-    return <p>Loading...</p>;
+    return <div className="flex justify-center items-center h-screen">
+    <Audio
+      height="80"
+      width="80"
+      radius="9"
+      color="green"
+      ariaLabel="loading"
+      wrapperClass="flex justify-center items-center"
+    />
+  </div>;
   }
 
   const resident = medicalData?.resident?.data;

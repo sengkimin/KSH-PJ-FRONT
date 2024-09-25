@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ResidentBoxInfo from '../../components/ResidentBoxInfo';
 import axios from 'axios';
+import { Audio } from 'react-loader-spinner'
 
 const ResidentInfo = () => {
   const { id } = useParams();
@@ -36,7 +37,17 @@ const ResidentInfo = () => {
   }, [id, token]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return<div className="flex justify-center items-center h-screen">
+    <Audio
+      height="80"
+      width="80"
+      radius="9"
+      color="green"
+      ariaLabel="loading"
+      wrapperClass="flex justify-center items-center"
+    />
+  </div>
+  
   }
 
   if (error) {

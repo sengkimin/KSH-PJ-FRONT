@@ -32,7 +32,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
       if (response.ok) {
         localStorage.setItem("jwtToken", result.jwt);
   
-        // Fetch user details including role
         const userId = result.user.id;
         const userResponse = await fetch(`https://strapi.ksh.thewmad.info/api/users/${userId}?populate=role,profile_img`, {
           headers: {
@@ -43,12 +42,11 @@ const LoginPage = ({ setIsLoggedIn }) => {
         const userResult = await userResponse.json();
   
         if (userResponse.ok) {
-          const roleName = userResult.role?.name; // Extracting role name
+          const roleName = userResult.role?.name;
           console.log("User role:", roleName);
   
-          localStorage.setItem("userRole", roleName); // Store the user's role
+          localStorage.setItem("userRole", roleName); 
   
-          // Check if profile_img exists and has formats
           const imageuser = userResult.profile_img?.formats?.thumbnail?.url;
           
           if (imageuser) {
@@ -63,7 +61,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
             console.error("setIsLoggedIn is not a function");
           }
   
-          // Redirect based on role if needed
           navigate("/");
         } else {
           setError(userResult.error?.message || "Failed to fetch user details.");

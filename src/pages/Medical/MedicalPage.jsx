@@ -70,7 +70,6 @@ const MedicalPage = () => {
           })}
         </div>
 
-        {/* Pagination Controls */}
         {totalPages > 1 && (
           <div className="flex justify-center items-center mt-4 space-x-3">
             <button

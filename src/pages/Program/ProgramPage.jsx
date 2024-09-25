@@ -124,7 +124,7 @@ const ProgramPage = () => {
         </table>
       </div>
 
-      {/* Pagination Controls */}
+  
       <div className="flex justify-center items-center mt-4 space-x-3">
         <button
           onClick={handlePrevPage}

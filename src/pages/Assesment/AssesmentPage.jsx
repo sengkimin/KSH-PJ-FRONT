@@ -28,15 +28,12 @@ const Assesment = () => {
     fetchData();
   }, [token]);
 
-  // Calculate the total number of pages
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  // Get the current data to display
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Handle page change
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -69,7 +66,6 @@ const Assesment = () => {
         </div>
       ))}
 
-      {/* Pagination Controls */}
       <div className="flex justify-center items-center mt-4 space-x-3">
         <button
           onClick={prevPage}
