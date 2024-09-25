@@ -133,7 +133,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
             onClick={handleLogin}
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "Signin"}
           </button>
           {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         </form>
