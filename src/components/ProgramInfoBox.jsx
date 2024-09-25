@@ -84,16 +84,19 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
 
   return (
     <tr>
-      <td className="py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border flex items-center">
-        {profile && (
-          <img
-            src={profile}
-            alt="Profile"
-            className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4 object-cover"
-          />
-        )}
-        {name}
-      </td>
+      <td className="py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">
+  <div className="flex flex-col md:flex-row items-center">
+    {profile && (
+      <img
+        src={profile}
+        alt="Profile"
+        className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4 object-cover"
+      />
+    )}
+    <span>{name}</span>
+  </div>
+</td>
+
 
       <td className="py-4 md:py-8 px-4 md:px-6 border">
         <div className="flex items-center">
