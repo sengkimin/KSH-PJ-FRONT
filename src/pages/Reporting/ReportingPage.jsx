@@ -11,7 +11,8 @@ import { Audio } from 'react-loader-spinner'
 const Reporting = () => {
   const [level, setLevel] = useState('1');
   const [type, setType] = useState('all');
-  const [selectedYear, setSelectedYear] = useState(""); 
+  const Year = localStorage.getItem('reportyear');
+  const [selectedYear, setSelectedYear] = useState(Year || "");
   const [selectedOption, setSelectedOption] = useState("today");
   const [customDate, setCustomDate] = useState("");
   const today = new Date().toISOString().split("T")[0];
@@ -64,6 +65,13 @@ const Reporting = () => {
   const handleDateChange = (e) => {
     setCustomDate(e.target.value);
   };
+   // Store the selected year in localStorage when it changes
+   useEffect(() => {
+    if (selectedYear) {
+      localStorage.setItem('reportyear', selectedYear);
+    }
+  }, [selectedYear]);
+
 
   const totalPages = checklistData.length ? Math.ceil(checklistData.length / itemsPerPage) : 1;
   const currentItems = checklistData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -166,7 +174,7 @@ const Reporting = () => {
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center">
               <label className="block text-[16px] md:text-xl mt-5 md:mt-4 mr-6 font-bold" htmlFor="level">
-                Level :
+                Level
               </label>
               <select
                 id="level"
@@ -185,10 +193,10 @@ const Reporting = () => {
         </div>
 
         <div className="flex space-x-4 justify-between">
-        <DropdownYearResident setSelectedYear={setSelectedYear} />
-          <div className="space-x-4">
+        <DropdownYearResident selectedYear={selectedYear} setSelectedYear={setSelectedYear} />
+        {/* <div className="space-x-4"> */}
           <DropdownActivity setSelectedactivity={setType} />
-          </div>
+          {/* </div> */}
         </div>
 
         <div className="text-green-700 text-center text-xl md:text-3xl font-bold mt-10">

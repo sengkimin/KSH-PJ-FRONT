@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import BoxResident from '../../components/BoxResident';
-import DropdownResident from '../../components/ DropdownResident';
 import DropdownYearResident from '../../components/DropdownYearResident';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+
+
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const residentsPerPage = 2; 
-  const [selectedYear, setSelectedYear] = useState(""); 
+  const Year = localStorage.getItem('year');
+  const [selectedYear, setSelectedYear] = useState(Year || ""); 
   const token = localStorage.getItem('jwtToken');
-  const location = useLocation();
-  const { type } = location.state || { type: "1" };
+  const level = localStorage.getItem('residentlevel')
+  const [type, setType] = useState(level || "1");
+
+  localStorage.setItem('residentlevel',type);
   useEffect(() => {
     const fetchResidents = async () => {
       if (!type || !selectedYear) return; 
@@ -34,6 +37,7 @@ const ResidentList = () => {
 
     fetchResidents();
   }, [type, selectedYear, token]); 
+
   const calculateAge = (dob) => {
     const currentYear = new Date().getFullYear();
     const birthYear = new Date(dob).getFullYear();
@@ -62,15 +66,53 @@ const ResidentList = () => {
     }
   };
 
+  const handleNavigate = (e) => {
+    const selectedType = e.target.value;
+    setType(selectedType);
+  };
+
+  // Store the selected year in localStorage when it changes
+  useEffect(() => {
+    if (selectedYear) {
+      localStorage.setItem('year', selectedYear);
+    }
+  }, [selectedYear]);
+
+  useEffect(() => {
+    if (type) {
+      localStorage.setItem('residentlevel', type);
+    }
+  }, [type]);
+
   return (
     <div className="flex justify-center items-center w-full">
       <div className="w-[94%]">
-        <div className="flex justify-between items-center mb-10  space-x-3">
-          <div><DropdownYearResident setSelectedYear={setSelectedYear} />
+        <div className="flex justify-between items-stretch mb-5 space-x-3">
+          <div>
+            <DropdownYearResident selectedYear={selectedYear} setSelectedYear={setSelectedYear} />
           </div>
-          <div className='flex space-x-3'>
-          <DropdownResident />
-          </div>
+          {/* <div className='flex space-x-3'> */}
+          <div className="flex flex-col sm:flex-row items-center sm:space-x-6 space-y-2 sm:space-y-0 mb-5">
+          <label
+            className="block text-[16px] md:text-xl font-bold"
+            htmlFor="type"
+          >
+            Level
+          </label>
+          <select
+            id="type"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="p-2 border border-stone-600 rounded-md outline-none h-9 w-20 md:w-28"
+          >
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+            <option value="4">Level 4</option>
+            <option value="5-6">Level 5</option>
+          </select>
+        </div>
+          {/* </div> */}
         </div>
         <div>
           {currentResidents.length > 0 ? (

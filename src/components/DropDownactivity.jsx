@@ -33,17 +33,17 @@ const DropdownActivity = ({ setSelectedactivity }) => {
   };
 
   return (
-    <div className="mb-4 flex  sm:items-center ">
+    <div className="mb-4 flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
       <label
-        className="block text-[16px] md:text-xl mt-5 sm:mt-4 mr-4 font-bold  "
-        htmlFor="year"
+        className="block text-[16px] md:text-xl font-bold"
+        htmlFor="activity"
       >
-        program :
+        Program
       </label>
       <select
-        id="year"
+        id="activity"
         onChange={handleaActivityChange}
-        className="p-2 border border-stone-600 rounded-md outline-none mt-3 sm:mt-3 h-9  md:w-44 w-[90px] "
+        className="p-2 border border-stone-600 rounded-md outline-none mt-1 sm:mt-0 h-9 md:w-44 w-[90px]"
       >
         <option value="all">All</option>
         {activity?.map((eachactivity) => (
