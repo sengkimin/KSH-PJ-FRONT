@@ -205,7 +205,7 @@ const Reporting = () => {
 
         {/* Export to Excel button */}
         <div className="flex justify-end pt-4">
-          <button onClick={handleDownloadExcel} className="bg-blue-500 text-white px-2 py-2 rounded">
+          <button onClick={handleDownloadExcel} className="bg-[#207137] text-white px-2 py-2 rounded">
             Export to Excel
           </button>
         </div>
