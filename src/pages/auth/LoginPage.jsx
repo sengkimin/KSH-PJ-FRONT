@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaLock } from "react-icons/fa";
+import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State for password visibility
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     setLoading(true);
     setError("");
-  
+
     const loginData = {
       identifier: email,
       password: password,
     };
-  
+
     try {
       const response = await fetch("https://strapi.ksh.thewmad.info/api/auth/local", {
         method: "POST",
@@ -26,41 +27,41 @@ const LoginPage = ({ setIsLoggedIn }) => {
         },
         body: JSON.stringify(loginData),
       });
-  
+
       const result = await response.json();
-  
+
       if (response.ok) {
         localStorage.setItem("jwtToken", result.jwt);
-  
+
         const userId = result.user.id;
         const userResponse = await fetch(`https://strapi.ksh.thewmad.info/api/users/${userId}?populate=role,profile_img`, {
           headers: {
             Authorization: `Bearer ${result.jwt}`,
           },
         });
-  
+
         const userResult = await userResponse.json();
-  
+
         if (userResponse.ok) {
           const roleName = userResult.role?.name;
           console.log("User role:", roleName);
-  
-          localStorage.setItem("userRole", roleName); 
-  
+
+          localStorage.setItem("userRole", roleName);
+
           const imageuser = userResult.profile_img?.formats?.thumbnail?.url;
-          
+
           if (imageuser) {
             localStorage.setItem("imageUser", imageuser);
           } else {
             console.warn("No profile image found.");
           }
-  
+
           if (typeof setIsLoggedIn === "function") {
             setIsLoggedIn(true);
           } else {
             console.error("setIsLoggedIn is not a function");
           }
-  
+
           navigate("/");
         } else {
           setError(userResult.error?.message || "Failed to fetch user details.");
@@ -74,8 +75,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
     } finally {
       setLoading(false);
     }
-  };  
-  
+  };
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-4">
       <div className="flex flex-col justify-center w-full md:w-1/3 p-8 bg-white rounded-lg mx-4 md:mx-0 md:mr-12 ">
@@ -109,17 +110,24 @@ const LoginPage = ({ setIsLoggedIn }) => {
             <label className="block text-sm font-bold mb-3" htmlFor="password">
               Password
             </label>
-            <div className="flex items-center border border-stone-600 rounded px-3 py-2">
+            <div className="flex items-center border border-stone-600 rounded px-3 py-2 relative">
               <FaLock className="text-gray-400 mr-2" />
               <input
                 className="p-2 bg-transparent border-none w-full text-gray-700 leading-tight focus:outline-none"
-                type="password"
+                type={showPassword ? "text" : "password"} // Toggle input type
                 id="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                className="absolute right-3 text-gray-600"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Eye icon */}
+              </button>
             </div>
           </div>
           <button
