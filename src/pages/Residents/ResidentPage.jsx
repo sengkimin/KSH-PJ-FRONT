@@ -7,7 +7,7 @@ import axios from 'axios';
 const ResidentList = () => {
   const [residents, setResidents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const residentsPerPage = 2; 
+  const residentsPerPage = 10; 
   const Year = localStorage.getItem('year');
   const [selectedYear, setSelectedYear] = useState(Year || ""); 
   const token = localStorage.getItem('jwtToken');
