@@ -4,7 +4,7 @@ import axios from "axios";
 const Assesment = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2; // Number of assessments per page
+  const itemsPerPage = 10; // Number of assessments per page
   const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
