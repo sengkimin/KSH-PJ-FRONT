@@ -172,7 +172,7 @@ const ProgramPage = () => {
           className={`px-4 py-2 ${
             currentPage === 1
               ? "opacity-50 cursor-not-allowed"
-              : "bg-blue-500 text-white"
+              : "bg-[#207137] text-white"
           }`}
         >
           Previous
@@ -188,7 +188,7 @@ const ProgramPage = () => {
           className={`px-4 py-2 ${
             currentPage === totalPages
               ? "opacity-50 cursor-not-allowed"
-              : "bg-blue-500 text-white"
+              : "bg-[#207137] text-white"
           }`}
         >
           Next

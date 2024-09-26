@@ -139,7 +139,7 @@ const ResidentList = () => {
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
-            className={`px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+            className={`px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-[#207137] text-white'}`}
           >
             Previous
           </button>
@@ -151,7 +151,7 @@ const ResidentList = () => {
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white'}`}
+            className={`px-4 py-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'bg-[#207137] text-white'}`}
           >
             Next
           </button>
