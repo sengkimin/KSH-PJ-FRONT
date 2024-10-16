@@ -113,7 +113,7 @@ const ResidentInfo = () => {
             rel="noopener noreferrer"
           >
             <img
-              src="/donwlod.png" 
+              src="https://res.cloudinary.com/dq5usncvp/image/upload/v1727161401/thumbnail_report_c223b65a45.png" 
               alt="Document Thumbnail"
               className="w-32 h-32 md:w-44 md:h-44 object-cover rounded mt-10"
             />
