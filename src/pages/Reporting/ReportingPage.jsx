@@ -224,10 +224,6 @@ const Reporting = () => {
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Activity Date</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Score Point</th>
                     <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300">Comment</th>
-                    <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300 text-green-700">Staff or Leader PWDs By</th>
-                    <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300 text-green-700">Staff or Leader PWDs Comment</th>
-                    <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300 text-green-700">PWDs Respond By</th>
-                    <th className="p-3 px-4 md:p-5 md:px-6 whitespace-nowrap border border-gray-300 text-green-700">PWDs Comment</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -256,10 +252,6 @@ const Reporting = () => {
         actdate={attributes.checklist_date || "N/A"}
         score={attributes.score_point?.data?.attributes?.score_point != null ? `${attributes.score_point.data.attributes.score_point}/100` : "0/100"}
         com={attributes.description || "No comments"} 
-        slead="User A" 
-        scom="Normal" 
-        pwdby="Yes" 
-        pwdcom="Nice" 
       />
     );
   })
