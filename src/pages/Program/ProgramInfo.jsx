@@ -11,16 +11,17 @@ const TaskPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5; // Change this to your desired items per page
   const token = localStorage.getItem("jwtToken");
+  const level = localStorage.getItem("programlevel")
   const location = useLocation();
   const { image } = location.state || {};
-  const { level, title } = useParams();
+  const { title } = useParams();
   const [selectedOption, setSelectedOption] = useState("today");
   const [customDate, setCustomDate] = useState("");
   const today = new Date().toISOString().split("T")[0];
   const selectedDate = selectedOption === "today" ? today : customDate;
+  console.log(selectedDate)
 
-  const URL = `https://strapi.ksh.thewmad.info/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][id][$eq]=${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident][populate]=profile_img_url&populate[curriculum_schedule][populate][curriculum_program_level]=true`;
-
+  const URL = `https://strapi.ksh.thewmad.info/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][program_level][program_level_name][$eq]=Level%20${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident][populate]=profile_img_url&populate[curriculum_schedule][populate][curriculum_program_level][populate]=program_level`;
   useEffect(() => {
     const fetchProgramInfo = async () => {
       if (!token || !title || !level) {
@@ -173,9 +174,9 @@ const TaskPage = () => {
             {paginatedProgramInfo.map((program) => (
               <ProgramInfoBox
                 key={program.id}
-                profile={program.attributes.resident.data.attributes.profile_img_url.data.attributes.formats.thumbnail.url}
+                profile={program.attributes.resident?.data?.attributes?.profile_img_url?.data?.attributes?.url || undefined}
                 name={
-                  program.attributes.resident.data.attributes.fullname_english
+                  program.attributes.resident?.data?.attributes?.fullname_english || undefined
                 }
                 initialValue={
                   program.attributes.score_point.data

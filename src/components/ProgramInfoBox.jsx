@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 
 const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueChange, onCommentChange }) => {
   const getIconFromValue = (value) => {
     switch (value) {
       case '100%':
-        return '✅';
+        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" />;
       case '0%':
-        return '❌';
+        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" />;
       case '50%':
-        return '🔄';
+        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" />;
       default:
-        return '❓';
+        return <img src="./correct.jpg" alt="complete" />;
     }
   };
 
   const [selectedOption, setSelectedOption] = useState('select');
-  const [value, setValue] = useState(initialValue ?? '0%'); 
+  const [value, setValue] = useState(initialValue ?? '0%');
   const [comment, setComment] = useState(initialComment || '');
   const [displayedIcon, setDisplayedIcon] = useState(getIconFromValue(initialValue ?? '0%'));
 
@@ -38,24 +39,24 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
     setComment(initialComment || '');
   }, [initialValue, initialComment]);
 
-  const handleChange = (event) => {
-    const selectedValue = event.target.value;
-
+  const handleChange = (selected) => {
+    const selectedValue = selected.value;
+    
     let newValue = '0%';
     let newIcon = getIconFromValue(newValue);
 
     switch (selectedValue) {
       case '1':
         newValue = '100%';
-        newIcon = '✅';
+        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" />;
         break;
       case '2':
         newValue = '0%';
-        newIcon = '❌';
+        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" />;
         break;
       case '3':
         newValue = '50%';
-        newIcon = '🔄';
+        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" />;
         break;
       default:
         newValue = '0%';
@@ -82,42 +83,94 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
     setSelectedOption('select');
   };
 
+  const options = [
+    { value: '1', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" /> },
+    { value: '2', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" /> },
+    { value: '3', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" /> }
+  ];
+
   return (
     <tr>
       <td className="py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">
-  <div className="flex flex-col md:flex-row items-center">
-    {profile && (
-      <img
-        src={profile}
-        alt="Profile"
-        className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4 object-cover"
-      />
-    )}
-    <span>{name}</span>
-  </div>
-</td>
-
+        <div className="flex flex-col md:flex-row items-center">
+          {profile && (
+            <img
+              src={profile}
+              alt="Profile"
+              className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4 object-cover"
+            />
+          )}
+          <span>{name}</span>
+        </div>
+      </td>
 
       <td className="py-4 md:py-8 px-4 md:px-6 border">
         <div className="flex items-center">
-          {selectedOption === 'select' ? (
-            <select
-              value={selectedOption}
-              onChange={handleChange}
-              className="w-full bg-white border-none border-gray-300 text-green-600 rounded-lg appearance-none text-base sm:text-xl md:text-3xl lg:text-5xl py-2 px-1 text-center"
-              style={{ backgroundImage: "none" }}
-            >
-              <option value="select" className="text-green-600">🔽</option>
-              <option value="1">✅</option>
-              <option value="2">❌</option>
-              <option value="3">🔄</option>
-            </select>
-          ) : (
-            <div className="flex items-center cursor-pointer" onClick={handleIconClick}>
-              <span className="text-base sm:text-lg md:text-3xl text-center">{displayedIcon}</span>
-              <div className="text-gray-600 text-xs sm:text-sm md:text-xl ml-2">{value}</div>
-            </div>
-          )}
+        {selectedOption === 'select' ? (
+  <Select
+    value={options.find(option => option.value === selectedOption)}
+    onChange={handleChange}
+    options={options}
+    className="w-full text-green-600 rounded-lg appearance-none"
+    styles={{
+      control: (provided) => ({
+        ...provided,
+        minHeight: '30px',                  // Compact height
+        height: 'auto',                     // Automatically adjust height
+        padding: '0.2rem 0.5rem',           // Compact padding
+        fontSize: '0.875rem',               // Default font size
+        borderColor: '#d1d5db',             // Light gray border
+        cursor: 'pointer',                  // Pointer cursor
+        '@media (max-width: 640px)': {      // Small screens (mobile)
+          fontSize: '0.75rem',              // Smaller font size on mobile
+          padding: '0.15rem 0.3rem',         // Less padding on small screens
+        },
+        '@media (min-width: 641px) and (max-width: 1024px)': {  // Medium screens (tablets)
+          fontSize: '0.875rem',             // Default size for tablet screens
+          padding: '0.2rem 0.5rem',         // Default padding for tablets
+        },
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: '0.875rem',               // Default font size for placeholder
+        color: '#6b7280',                   // Slightly muted placeholder color
+        '@media (max-width: 640px)': {      // Smaller font size for small screens
+          fontSize: '0.75rem',              // Smaller placeholder text on mobile
+        },
+      }),
+      dropdownIndicator: (provided) => ({
+        ...provided,
+        padding: '0.2rem',                  // Compact dropdown indicator
+      }),
+      indicatorSeparator: (provided) => ({
+        ...provided,
+        display: 'none',                    // Hide the indicator separator
+      }),
+      singleValue: (provided) => ({
+        ...provided,
+        fontSize: '0.875rem',               // Default size for selected value
+        '@media (max-width: 640px)': {      // Smaller selected value on mobile
+          fontSize: '0.75rem',              // Smaller font size for mobile
+        },
+      }),
+      option: (provided) => ({
+        ...provided,
+        fontSize: '0.875rem',               // Default font size for options
+        padding: '0.5rem',                  // Default padding for options
+        '@media (max-width: 640px)': {      // Smaller padding and font size on mobile
+          fontSize: '0.75rem',              // Smaller font size for options on mobile
+          padding: '0.4rem',                // Less padding for options on mobile
+        },
+      }),
+    }}
+  />
+) : (
+  <div className="flex items-center cursor-pointer" onClick={handleIconClick}>
+    <span className="text-base sm:text-lg md:text-3xl text-center">{displayedIcon}</span>
+    <div className="text-gray-600 text-xs sm:text-sm md:text-xl ml-2">{value}</div>
+  </div>
+)}
+
         </div>
       </td>
 
