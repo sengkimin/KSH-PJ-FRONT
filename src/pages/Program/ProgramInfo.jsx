@@ -48,15 +48,15 @@ const TaskPage = () => {
 
   const handleSave = async () => {
     try {
-      for (const program of programInfo) {
+      const promises = programInfo.map(async (program) => {
         const id = program.id;
         const currentScore = program.attributes?.score_point?.data?.attributes?.score_point;
         const currentComment = program.attributes?.description;
-
+  
         const value = program.value || `${currentScore}%` || "0%";
         const comment = program.comment || currentComment || "";
-
-        const response = await axios.put(
+  
+        return axios.put(
           `https://strapi.ksh.thewmad.info/api/resident-checklists/${id}`,
           {
             data: {
@@ -71,12 +71,17 @@ const TaskPage = () => {
             },
           }
         );
-        if (response.status === 200) {
-          toast.success("Data saved successfully!", {
-            position: "top-center",
-            autoClose: 5000,
-          });
-        }
+      });
+  
+      // Wait for all requests to complete
+      const responses = await Promise.all(promises);
+  
+      // Check if all requests were successful
+      if (responses.every((response) => response.status === 200)) {
+        toast.success("All resident saved successfully!", {
+          position: "top-center",
+          autoClose: 5000,
+        });
       }
     } catch (error) {
       toast.error("Failed to save the data. Please try again.", {
@@ -86,6 +91,7 @@ const TaskPage = () => {
       console.error("Error updating the checklist:", error);
     }
   };
+  
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);

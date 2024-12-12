@@ -5,11 +5,11 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
   const getIconFromValue = (value) => {
     switch (value) {
       case '100%':
-        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" />;
+        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/correct_removebg_preview_9ab70cbf0a.png" alt="complete" />;
       case '0%':
-        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" />;
+        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/incorrect_removebg_preview_b11a69e95e.png" alt="incomplete" />;
       case '50%':
-        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" />;
+        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/medium_removebg_preview_b99a72ec49.png" alt="in progress" />;
       default:
         return <img src="./correct.jpg" alt="complete" />;
     }
@@ -48,15 +48,15 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
     switch (selectedValue) {
       case '1':
         newValue = '100%';
-        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" />;
+        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/correct_removebg_preview_9ab70cbf0a.png" alt="complete" />;
         break;
       case '2':
         newValue = '0%';
-        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" />;
+        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/incorrect_removebg_preview_b11a69e95e.png" alt="incomplete" />;
         break;
       case '3':
         newValue = '50%';
-        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" />;
+        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/medium_removebg_preview_b99a72ec49.png" alt="in progress" />;
         break;
       default:
         newValue = '0%';
@@ -84,9 +84,9 @@ const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueCh
   };
 
   const options = [
-    { value: '1', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" /> },
-    { value: '2', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" /> },
-    { value: '3', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" /> }
+    { value: '1', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/correct_removebg_preview_9ab70cbf0a.png" alt="complete" /> },
+    { value: '2', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/incorrect_removebg_preview_b11a69e95e.png" alt="incomplete" /> },
+    { value: '3', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733993278/medium_removebg_preview_b99a72ec49.png" alt="in progress" /> }
   ];
 
   return (

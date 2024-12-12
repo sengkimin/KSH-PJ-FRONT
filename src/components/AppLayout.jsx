@@ -126,6 +126,24 @@ const AppLayout = () => {
                 Medical
               </NavLink>
             )}
+            {/* {(userRole === 'Authenticated' || userRole === 'Public') && (
+              <NavLink
+                to="/checklistgenerator"
+                className={({ isActive }) =>
+                  `block text-xl md:text-2xl font-bold py-4 md:py-6 px-4 flex items-center ${
+                    isActive ? "bg-green-800 text-white" : "text-[#474747] hover:bg-green-800 hover:text-white"
+                  }`
+                }
+                onClick={closeSidebar}
+              >
+                <img
+                  src="https://res.cloudinary.com/dq5usncvp/image/upload/v1733992323/66bb61f521b6db58c4b3404e_9a_DZBDK_6su_T30g_G_Rs_Ym55_YE_Iel00_XTBES_3_Ejha_P1qw_removebg_preview_60d71ce4fd.png"
+                  alt="checklistgenerator"
+                  className="h-17 w-20 mr-10"
+                />
+                Generate
+              </NavLink>
+            )} */}
           </nav>
         </div>
 

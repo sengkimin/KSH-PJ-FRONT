@@ -16,6 +16,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Activities from "./pages/Activities/ActivitiesPage";
 import PrivateRoute from "./pages/auth/PrivateRoute"; 
 import ResidentInfo from "./pages/Residents/ResidentInfoPage";
+import ChecklistGenerator from "./pages/ChecklistGenerator/ChecklistGenerator";
 
 function App() { 
   return (
@@ -33,7 +34,7 @@ function App() {
         <Route path="/reporting" element={<PrivateRoute allowedRoles={['Authenticated']}><Reporting /></PrivateRoute>} />
         <Route path="/medical" element={<PrivateRoute allowedRoles={['Authenticated', 'Public']}><Medical /></PrivateRoute>} />
         <Route path="/medical/:id" element={<PrivateRoute allowedRoles={['Authenticated', 'Public']}><MedicalInfo /></PrivateRoute>}/>
-        <Route path="/activities" element={<PrivateRoute allowedRoles={['Authenticated']}><Activities /></PrivateRoute>} />
+        <Route path="/checklistgenerator" element={<PrivateRoute allowedRoles={['Authenticated']}><ChecklistGenerator /></PrivateRoute>} />
 
       </Route>
     </Routes>
