@@ -1,189 +1,244 @@
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
+import React, { useState, useEffect } from "react";
+import ProgramInfoBox from "../../components/ProgramInfoBox";
+import { Link, useParams, useLocation } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const ProgramInfoBox = ({ profile, name, initialValue, initialComment, onValueChange, onCommentChange }) => {
-  const getIconFromValue = (value) => {
-    switch (value) {
-      case '100%':
-        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" />;
-      case '0%':
-        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" />;
-      case '50%':
-        return <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" />;
-      default:
-        return <img src="./correct.jpg" alt="complete" />;
-    }
-  };
+const TaskPage = () => {
+  const [programInfo, setProgramInfo] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 5; // Change this to your desired items per page
+  const token = localStorage.getItem("jwtToken");
+  const level = localStorage.getItem("programlevel")
+  const location = useLocation();
+  const { image } = location.state || {};
+  const { title } = useParams();
+  const [selectedOption, setSelectedOption] = useState("today");
+  const [customDate, setCustomDate] = useState("");
+  const today = new Date().toISOString().split("T")[0];
+  const selectedDate = selectedOption === "today" ? today : customDate;
+  console.log(selectedDate)
 
-  const [selectedOption, setSelectedOption] = useState('select');
-  const [value, setValue] = useState(initialValue ?? '0%');
-  const [comment, setComment] = useState(initialComment || '');
-  const [displayedIcon, setDisplayedIcon] = useState(getIconFromValue(initialValue ?? '0%'));
-
+  const URL = `https://strapi.ksh.thewmad.info/api/resident-checklists?filters[checklist_date][$eq]=${selectedDate}&filters[program_activity][program_activity_name][$eq]=${title}&filters[curriculum_schedule][curriculum_program_level][program_level][program_level_name][$eq]=Level%20${level}&populate[program_activity]=true&populate[score_point]=true&populate[resident][populate]=profile_img_url&populate[curriculum_schedule][populate][curriculum_program_level][populate]=program_level`;
   useEffect(() => {
-    if (initialValue === null || initialValue === undefined) {
-      setSelectedOption('select');
-    } else {
-      setValue(initialValue);
-      setDisplayedIcon(getIconFromValue(initialValue));
-
-      if (initialValue === '100%') {
-        setSelectedOption('1');
-      } else if (initialValue === '0%') {
-        setSelectedOption('2');
-      } else if (initialValue === '50%') {
-        setSelectedOption('3');
+    const fetchProgramInfo = async () => {
+      if (!token || !title || !level) {
+        console.error("Missing required parameters");
+        return;
       }
-    }
 
-    setComment(initialComment || '');
-  }, [initialValue, initialComment]);
+      try {
+        const response = await axios.get(URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProgramInfo(response.data?.data || []);
+        const totalItems = response.data?.data?.length || 0;
+        setTotalPages(Math.ceil(totalItems / itemsPerPage));
+      } catch (error) {
+        console.error("Error fetching the residents data:", error);
+      }
+    };
 
-  const handleChange = (selected) => {
-    const selectedValue = selected.value;
-    
-    let newValue = '0%';
-    let newIcon = getIconFromValue(newValue);
+    fetchProgramInfo();
+  }, [URL, token, title, level]);
 
-    switch (selectedValue) {
-      case '1':
-        newValue = '100%';
-        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" />;
-        break;
-      case '2':
-        newValue = '0%';
-        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" />;
-        break;
-      case '3':
-        newValue = '50%';
-        newIcon = <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" />;
-        break;
-      default:
-        newValue = '0%';
-        newIcon = getIconFromValue(newValue);
-    }
+  const handleSave = async () => {
+    try {
+      for (const program of programInfo) {
+        const id = program.id;
+        const currentScore = program.attributes?.score_point?.data?.attributes?.score_point;
+        const currentComment = program.attributes?.description;
 
-    setValue(newValue);
-    setDisplayedIcon(newIcon);
-    setSelectedOption(selectedValue);
-    if (onValueChange) {
-      onValueChange(newValue);
+        const value = program.value || `${currentScore}%` || "0%";
+        const comment = program.comment || currentComment || "";
+
+        const response = await axios.put(
+          `https://strapi.ksh.thewmad.info/api/resident-checklists/${id}`,
+          {
+            data: {
+              score_point: value === "100%" ? 1 : value === "50%" ? 3 : 2,
+              description: comment,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          toast.success("Data saved successfully!", {
+            position: "top-center",
+            autoClose: 5000,
+          });
+        }
+      }
+    } catch (error) {
+      toast.error("Failed to save the data. Please try again.", {
+        position: "top-center",
+        autoClose: 5000,
+      });
+      console.error("Error updating the checklist:", error);
     }
   };
 
-  const handleCommentChange = (event) => {
-    const newComment = event.target.value;
-    setComment(newComment);
-    if (onCommentChange) {
-      onCommentChange(newComment);
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+    if (e.target.value === "today") {
+      console.log(`Today's date selected: ${today}`);
     }
   };
 
-  const handleIconClick = () => {
-    setSelectedOption('select');
+  const handleDateChange = (e) => {
+    setCustomDate(e.target.value);
+    console.log(`Custom date selected: ${e.target.value}`);
   };
 
-  const options = [
-    { value: '1', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../correct-removebg-preview.png" alt="complete" /> },
-    { value: '2', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../incorrect-removebg-preview.png" alt="incomplete" /> },
-    { value: '3', label: <img className="w-6 h-6 sm:w-8 sm:h-6 md:w-8 md:h-8" src="../../medium-removebg-preview.png" alt="in progress" /> }
-  ];
+  const handleValueChange = (programId, newValue) => {
+    setProgramInfo((prevInfo) =>
+      prevInfo.map((program) =>
+        program.id === programId ? { ...program, value: newValue } : program
+      )
+    );
+  };
+
+  const handleCommentChange = (programId, newComment) => {
+    setProgramInfo((prevInfo) =>
+      prevInfo.map((program) =>
+        program.id === programId ? { ...program, comment: newComment } : program
+      )
+    );
+  };
+
+  const getPaginatedData = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return programInfo.slice(startIndex, startIndex + itemsPerPage);
+  };
+
+  const paginatedProgramInfo = getPaginatedData();
+
+  console.log("programInfodata",programInfo)
 
   return (
-    <tr>
-      <td className="py-4 md:py-8 px-4 md:px-16 text-sm md:text-xl font-bold border">
-        <div className="flex flex-col md:flex-row items-center">
-          {profile && (
-            <img
-              src={profile}
-              alt="Profile"
-              className="w-16 h-16 md:w-24 md:h-24 rounded-full mr-4 object-cover"
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
+      <div className="w-[95%] flex flex-row justify-between items-center mb-6">
+        <Link to="/program">
+          <button className="bg-gray-300 text-black py-2 px-6 sm:px-8 rounded mb-4 mt-2 sm:mb-0">
+            Back
+          </button>
+        </Link>
+
+        <div>
+          <select
+            className="bg-white border border-gray-300 py-2 px-4 rounded"
+            value={selectedOption}
+            onChange={handleOptionChange}
+          >
+            <option value="today">Today</option>
+            <option value="custom">Custom</option>
+          </select>
+
+          {selectedOption === "custom" && (
+            <input
+              type="date"
+              className="bg-white border border-gray-300 py-2 px-4 rounded mt-2"
+              value={customDate}
+              onChange={handleDateChange}
             />
           )}
-          <span>{name}</span>
         </div>
-      </td>
+      </div>
 
-      <td className="py-4 md:py-8 px-4 md:px-6 border">
-        <div className="flex items-center">
-        {selectedOption === 'select' ? (
-  <Select
-    value={options.find(option => option.value === selectedOption)}
-    onChange={handleChange}
-    options={options}
-    className="w-full text-green-600 rounded-lg appearance-none"
-    styles={{
-      control: (provided) => ({
-        ...provided,
-        minHeight: '30px',                  // Compact height
-        height: 'auto',                     // Automatically adjust height
-        padding: '0.2rem 0.5rem',           // Compact padding
-        fontSize: '0.875rem',               // Default font size
-        borderColor: '#d1d5db',             // Light gray border
-        cursor: 'pointer',                  // Pointer cursor
-        '@media (max-width: 640px)': {      // Small screens (mobile)
-          fontSize: '0.75rem',              // Smaller font size on mobile
-          padding: '0.15rem 0.3rem',         // Less padding on small screens
-        },
-        '@media (min-width: 641px) and (max-width: 1024px)': {  // Medium screens (tablets)
-          fontSize: '0.875rem',             // Default size for tablet screens
-          padding: '0.2rem 0.5rem',         // Default padding for tablets
-        },
-      }),
-      placeholder: (provided) => ({
-        ...provided,
-        fontSize: '0.875rem',               // Default font size for placeholder
-        color: '#6b7280',                   // Slightly muted placeholder color
-        '@media (max-width: 640px)': {      // Smaller font size for small screens
-          fontSize: '0.75rem',              // Smaller placeholder text on mobile
-        },
-      }),
-      dropdownIndicator: (provided) => ({
-        ...provided,
-        padding: '0.2rem',                  // Compact dropdown indicator
-      }),
-      indicatorSeparator: (provided) => ({
-        ...provided,
-        display: 'none',                    // Hide the indicator separator
-      }),
-      singleValue: (provided) => ({
-        ...provided,
-        fontSize: '0.875rem',               // Default size for selected value
-        '@media (max-width: 640px)': {      // Smaller selected value on mobile
-          fontSize: '0.75rem',              // Smaller font size for mobile
-        },
-      }),
-      option: (provided) => ({
-        ...provided,
-        fontSize: '0.875rem',               // Default font size for options
-        padding: '0.5rem',                  // Default padding for options
-        '@media (max-width: 640px)': {      // Smaller padding and font size on mobile
-          fontSize: '0.75rem',              // Smaller font size for options on mobile
-          padding: '0.4rem',                // Less padding for options on mobile
-        },
-      }),
-    }}
-  />
-) : (
-  <div className="flex items-center cursor-pointer" onClick={handleIconClick}>
-    <span className="text-base sm:text-lg md:text-3xl text-center">{displayedIcon}</span>
-    <div className="text-gray-600 text-xs sm:text-sm md:text-xl ml-2">{value}</div>
-  </div>
-)}
+      <div className="md:ml-20 text-2xl mb-8 font-semibold ml-4">
+        Resident: <span>{programInfo.length}</span>
+      </div>
 
+      <h1 className="text-3xl sm:text-4xl font-bold text-green-700 mb-4 text-center">
+        {title}
+      </h1>
+
+      <img
+        src={image}
+        alt="Program Image"
+        className="w-1/3 md:w-1/4 h-auto object-cover rounded-lg mb-2"
+      />
+
+      <div className="w-[95%] overflow-x-auto">
+        <table className="w-full mt-10 bg-white rounded-lg">
+          <tbody>
+            {paginatedProgramInfo.map((program) => (
+              <ProgramInfoBox
+                key={program.id}
+                profile={program.attributes.resident?.data?.attributes?.profile_img_url?.data?.attributes?.url || undefined}
+                name={
+                  program.attributes.resident?.data?.attributes?.fullname_english || undefined
+                }
+                initialValue={
+                  program.attributes.score_point.data
+                    ? program.attributes.score_point.data.attributes.score_point +
+                      "%" || "0%"
+                    : program.value || "0%"
+                }
+                initialComment={
+                  program.attributes.score_point.data
+                    ? program.attributes.description
+                    : program.comment || ""
+                }
+                onValueChange={(newValue) =>
+                  handleValueChange(program.id, newValue)
+                }
+                onCommentChange={(newComment) =>
+                  handleCommentChange(program.id, newComment)
+                }
+              />
+            ))}
+          </tbody>
+        </table>
+
+        <div className="flex justify-center items-center mt-4 space-x-3">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white rounded'}`}
+          >
+            Previous
+          </button>
+
+          <span className="text-lg font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'bg-blue-500 text-white rounded'}`}
+          >
+            Next
+          </button>
         </div>
-      </td>
 
-      <td className="py-4 md:py-8 px-2 md:px-6 border">
-        <textarea
-          placeholder="Comment :"
-          className="w-full py-1 md:py-1 lg:py-0.5 px-2 text-sm sm:text-base md:text-lg lg:text-xl border-gray-300 rounded-lg resize-none"
-          value={comment}
-          onChange={handleCommentChange}
+        <button
+          onClick={handleSave}
+          className="bg-green-700 text-white text-sm py-2 px-6 mt-4 md:mt-10 ml-auto md:ml-0 rounded cursor-pointer md:text-xl md:px-14"
+        >
+          Save
+        </button>
+        <ToastContainer
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="colored"
         />
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 
-export default ProgramInfoBox;
+export default TaskPage;
