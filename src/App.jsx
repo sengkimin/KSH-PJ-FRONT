@@ -13,7 +13,7 @@ import Reporting from "./pages/Reporting/ReportingPage";
 import Medical from "./pages/Medical/MedicalPage";
 import MedicalInfo from "./pages/Medical/MedicalInfo";
 import NotFoundPage from "./pages/NotFoundPage"; 
-import Activities from "./pages/Activities/ActivitiesPage";
+// import Activities from "./pages/Activities/ActivitiesPage";
 import PrivateRoute from "./pages/auth/PrivateRoute"; 
 import ResidentInfo from "./pages/Residents/ResidentInfoPage";
 import ChecklistGenerator from "./pages/ChecklistGenerator/ChecklistGenerator";

@@ -132,33 +132,33 @@ const TaskPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 p-4">
-      <div className="w-[95%] flex flex-row justify-between items-center mb-6">
-        <Link to="/program">
-          <button className="bg-gray-300 text-black py-2 px-6 sm:px-8 rounded mb-4 mt-2 sm:mb-0">
-            Back
-          </button>
-        </Link>
+     <div className="w-[95%] flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
+  <Link to="/program">
+    <button className="bg-gray-300 text-black py-2 px-6 sm:px-8 rounded shadow hover:bg-gray-400 transition duration-200">
+      Back
+    </button>
+  </Link>
 
-        <div>
-          <select
-            className="bg-white border border-gray-300 py-2 px-4 rounded"
-            value={selectedOption}
-            onChange={handleOptionChange}
-          >
-            <option value="today">Today</option>
-            <option value="custom">Custom</option>
-          </select>
+  <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+    <select
+      className="bg-white border border-gray-300 py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      value={selectedOption}
+      onChange={handleOptionChange}
+    >
+      <option value="today">Today</option>
+      <option value="custom">Custom</option>
+    </select>
 
-          {selectedOption === "custom" && (
-            <input
-              type="date"
-              className="bg-white border border-gray-300 py-2 px-4 rounded mt-2"
-              value={customDate}
-              onChange={handleDateChange}
-            />
-          )}
-        </div>
-      </div>
+    {selectedOption === "custom" && (
+      <input
+        type="date"
+        className="bg-white border border-gray-300 py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        value={customDate}
+        onChange={handleDateChange}
+      />
+    )}
+  </div>
+</div>
 
       <div className="md:ml-20 text-2xl mb-8 font-semibold ml-4">
         Resident: <span>{programInfo.length}</span>

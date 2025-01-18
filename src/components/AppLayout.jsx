@@ -126,7 +126,7 @@ const AppLayout = () => {
                 Medical
               </NavLink>
             )}
-            {/* {(userRole === 'Authenticated' || userRole === 'Public') && (
+            {(userRole === 'Authenticated' || userRole === 'Public') && (
               <NavLink
                 to="/checklistgenerator"
                 className={({ isActive }) =>
@@ -143,7 +143,7 @@ const AppLayout = () => {
                 />
                 Generate
               </NavLink>
-            )} */}
+            )}
           </nav>
         </div>
 
